@@ -1,0 +1,21 @@
+@import "~antd/dist/antd.css";
+.auth-form {
+  height: 100vh;
+  background-color: #eee;
+}
+
+.login .logo-form {
+  height: 100%;
+  text-align: center;
+  height: 25%;
+  box-sizing: border-box;
+  display: flex;
+  margin: 0 auto;
+}
+.login .logo-form img {
+  vertical-align: middle;
+  display: table-cell;
+  margin: auto;
+  min-width: 100px;
+  width: 15vh;
+}

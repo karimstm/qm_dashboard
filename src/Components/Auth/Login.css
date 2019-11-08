@@ -1,0 +1,45 @@
+.l-form {
+  width: 100%;
+  margin: auto;
+  height: 75%;
+  box-sizing: border-box;
+  text-align: left;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #FFF;
+  padding-left: 8%;
+  padding-right: 8%;
+  border-radius: 8px;
+}
+
+.l-form .l-input {
+  margin: 15% 0 10% 0;
+}
+
+.l-form .l-forgot {
+  float: right;
+}
+.l-login-form-button {
+  width: 100%;
+}
+#l-sign-up {
+  margin-top: 5%;
+  background-color: transparent;
+  color: #1d8ffd;
+}
+
+.l-flex {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.spinDiv {
+  text-align: center;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  margin: 20px 0;
+}

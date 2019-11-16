@@ -6,6 +6,7 @@ import Auth from "../Components/Auth/Auth";
 import Login from "../Components/Auth/LoginForm";
 import NotFound from "../Components/pages/notFound";
 import { connect } from "react-redux";
+import Data from "../Components/pages/Data";
 
 class RootRoute extends Component {
   render() {
@@ -17,6 +18,10 @@ class RootRoute extends Component {
           exact
           render={props => <Auth {...props} component={Login} />}
         />
+        <Route
+          path="/data"
+          exact
+          component={Data} />}
         <Route path="*" component={NotFound} />
       </Switch>
     );

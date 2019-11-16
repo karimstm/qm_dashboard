@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Icon } from "antd";
+import { Layout, Icon, Tooltip } from "antd";
 import Logo from "./Logo.png";
 import "./Sider.css";
 import { connect } from "react-redux";
@@ -38,10 +38,12 @@ class Siders extends Component {
           </Link>
         </div>
         <div id="side-menu">
-          <Link to="/filter">
-            <div className="item">
-              <Icon type="filter" />
-            </div>
+          <Link to="/data">
+            <Tooltip placement="right" title="Database loading">
+              <div className="item">
+                <Icon type="database" />
+              </div>
+            </Tooltip>
           </Link>
         </div>
         <div id="side-logout">

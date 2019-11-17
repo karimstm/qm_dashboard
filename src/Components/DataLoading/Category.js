@@ -1,47 +1,45 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, Select } from 'antd';
-import { FetchCategroy, PostProduct } from '../../actions/product';
+import { Form, Button, Icon, Input, Select } from 'antd';
+import { successNotifiaction, openNotification } from '../NotificationMessages';
 import { connect } from 'react-redux';
-import { openNotification } from '../NotificationMessages';
+import { PostCategory, FetchFamily } from '../../actions/product';
+import { CATEGORY_INSERT_SUCCESS } from '../../actions/types';
 
 
 const { Option } = Select;
 
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
-
-
-class Product extends Component {
+class Category extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log(values)
             if (!err) {
-                this.props.PostProduct(values)
+                this.props.PostCategory(values)
+                .then(res => {
+                    if (res.type === CATEGORY_INSERT_SUCCESS)
+                        successNotifiaction("Category has been added successfuly")
+                })
             }
         });
     };
 
-
-    // Fetch categories from the back-end
-    fetchCategories = async () => {
-        const { FetchCategroy } = this.props;
-        await FetchCategroy();
+    // Fetch List of families
+    fetchFamilies = async () => {
+        const { FetchFamily } = this.props
+        await FetchFamily()
     }
 
-    // Fetch Categories once the component is mounted
-    componentDidMount(){
-        this.fetchCategories()
+    componentDidMount()
+    {
+        this.fetchFamilies()
     }
 
-    // Render list of categories
-    renderCategories = () => {
-        const { error, categories } = this.props
-        if (!error && categories.length)
+    // Render list of Families
+    renderFamilies = () => {
+        const { error, families } = this.props
+        if (!error && families.length)
         {
-            return categories.map((value) => {
+            return families.map((value) => {
                 return <Option key={ value.id } value={ value.id }>{ value.name }</Option>   
             })
         }
@@ -51,30 +49,30 @@ class Product extends Component {
     render() {
 
         const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
-        const productNameError = isFieldTouched('name') && getFieldError('name');
-        const { error, insertError } = this.props;
+        const categoryNameError = isFieldTouched('name') && getFieldError('name');
+        const { error } = this.props;
 
-        if (error || insertError )
+        if (error)
             openNotification(error)
         return (
             <>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Item validateStatus={productNameError ? 'error' : ''} help={productNameError || ''}>
+                    <Form.Item validateStatus={categoryNameError ? 'error' : ''} help={categoryNameError || ''}>
                         {getFieldDecorator('name', {
                             rules: [{ required: true, message: 'Please enter a name' }],
                         })(
                             <Input
                                 prefix={<Icon type="shopping-cart" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Product Name"
+                                placeholder="Category Name"
                             />,
                         )}
                     </Form.Item>
                     <Form.Item hasFeedback>
-                        {getFieldDecorator('product_category_ref', {
-                            rules: [{ required: true, message: 'Please select a Category!' }],
+                        {getFieldDecorator('product_family_ref', {
+                            rules: [{ required: true, message: 'Please select a Family!' }],
                         })(
-                            <Select placeholder="Please select a Category">
-                                { this.renderCategories() }
+                            <Select placeholder="Please select a Family">
+                                { this.renderFamilies() }
                             </Select>,
                         )}
                     </Form.Item>
@@ -98,14 +96,14 @@ class Product extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.categories.categories,
-        error: state.categories.error,
-        insertError: state.products.error
+        error: state.categories.error || state.families.error,
+        families: state.families.families
     }
 }
 
 export default connect(
     mapStateToProps, {
-        FetchCategroy,
-        PostProduct
+        PostCategory,
+        FetchFamily
     }
-)(Form.create({ name: 'horizontal_product' })(Product));
+)(Form.create({ name: 'horizontal_product' })(Category));

@@ -111,7 +111,9 @@ const stoppageAreaChartOptions = seriesOptions => {
   };
 };
 
-const quantityChartOptions = seriesOptions => {
+const quantityChartOptions = (seriesOptions, drilldownSeries) => {
+  console.log(seriesOptions);
+  console.log(drilldownSeries);
   return {
     chart: {
       type: "column"
@@ -119,7 +121,13 @@ const quantityChartOptions = seriesOptions => {
     title: {
       text: ""
     },
+    xAxis: {
+      type: "datetime"
+    },
     series: seriesOptions,
+    drilldown: {
+      series: drilldownSeries
+    },
     plotOptions: {
       column: {
         stacking: "normal"

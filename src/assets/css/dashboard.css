@@ -6,7 +6,7 @@ div.ant-card {
 }
 
 div.ant-card-body {
-  padding: 10px;
+  padding: 5px;
 }
 
 div.indicators-card {
@@ -15,9 +15,17 @@ div.indicators-card {
   background-color: #ffffff;
   color: #252422;
   margin-bottom: 22px;
-  /* position: relative; */
   border: 0 none;
+  min-height: 156px;
 }
+
+/* div.indicators-card.events {
+  min-height: 155px;
+}
+
+div.indicators-card.inspectors {
+  min-height: 155px;
+} */
 
 ul.ant-card-actions {
   border-bottom-left-radius: 12px;
@@ -37,9 +45,9 @@ p.indicators-content {
 }
 
 .charts-title {
-  /* padding: 5px 0px 0px 0px; */
+  padding: 5px 0px 0px 0px;
   text-transform: capitalize;
-  /* margin: 5px 0px 0px 5px; */
+  margin: 5px 0px 0px 5px;
   color: #404e67;
   line-height: 19px;
   /* font-weight: 600; */

@@ -8,14 +8,14 @@ require("highcharts/modules/drilldown")(Highcharts);
 
 export class PieChart extends Component {
   render() {
-    const { seriesOptions, drillDownSeries, getEvent } = this.props;
+    const { seriesOptions, drilldownSeries, getEvent } = this.props;
     return (
       <div>
         <HighchartsReact
           highcharts={Highcharts}
           options={stoppagePieChartOptions(
             seriesOptions,
-            drillDownSeries,
+            drilldownSeries,
             getEvent
           )}
         />

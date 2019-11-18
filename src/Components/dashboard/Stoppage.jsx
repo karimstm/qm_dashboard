@@ -3,63 +3,63 @@ import { Col, Card, Icon, Menu, Dropdown } from "antd";
 
 import PieStoppageChart from "./PieStoppageChart";
 import AreaStoppageChart from "./AreaStoppageChart";
-import moment from "moment";
+// import moment from "moment";
 
-// var pieData = [
-//   {
-//     name: "Incident Quality",
-//     y: 56,
-//     drilldown: "Incident Quality",
-//     color: "#FBC658"
+var pieData = [
+  {
+    name: "Incident Quality",
+    y: 56,
+    drilldown: "Incident Quality",
+    color: "#FBC658"
+  },
+  { name: "Halt", y: 77, drilldown: "Halt", color: "#EF8157" },
+  { name: "Weather", y: 12, drilldown: "Weather", color: "#51CBCE" }
+];
+
+// var summarydata = {
+//   halt: {
+//     total_minutes: "593.03",
+//     "Attente OCP pour début chargement": "477.057",
+//     "Arrêt OCP": "115.973"
 //   },
-//   { name: "Halt", y: 77, drilldown: "Halt", color: "#EF8157" },
-//   { name: "Weather", y: 12, drilldown: "Weather", color: "#51CBCE" }
-// ];
+//   incident: {
+//     total_minutes: "179.047",
+//     Motte: "17.528",
+//     "Débris de Caoutchouc / Corps étranger": "17.866",
+//     Temperature: "69.87",
+//     Humidity: "23.056",
+//     "Couleur du produit": "35.853"
+//   },
+//   weather: {
+//     total_minutes: "899.652",
+//     Pluie: "827.415",
+//     "Mauvais temps": "72.237"
+//   }
+// };
 
-var summarydata = {
-  halt: {
-    total_minutes: "593.03",
-    "Attente OCP pour début chargement": "477.057",
-    "Arrêt OCP": "115.973"
-  },
-  incident: {
-    total_minutes: "179.047",
-    Motte: "17.528",
-    "Débris de Caoutchouc / Corps étranger": "17.866",
-    Temperature: "69.87",
-    Humidity: "23.056",
-    "Couleur du produit": "35.853"
-  },
-  weather: {
-    total_minutes: "899.652",
-    Pluie: "827.415",
-    "Mauvais temps": "72.237"
-  }
-};
+// const getColor = key => {
+//   switch (key) {
+//     case "incident":
+//       return "#FBC658";
+//     case "halt":
+//       return "#EF8157";
+//     case "weather":
+//       return "#51CBCE";
+//     default:
+//       return "#51CBCE";
+//   }
+// };
 
-const getColor = key => {
-  switch (key) {
-    case "incident":
-      return "#FBC658";
-    case "halt":
-      return "#EF8157";
-    case "weather":
-      return "#51CBCE";
-    default:
-      return "#51CBCE";
-  }
-};
-
-var pieData = [];
-Object.keys(summarydata).forEach(key => {
-  let minutes = parseFloat(summarydata[key].total_minutes);
-  pieData.push({
-    name: key,
-    y: moment.duration({ minutes: minutes }).asHours(),
-    drilldown: key,
-    color: getColor(key)
-  });
-});
+// var pieData = [];
+// Object.keys(summarydata).forEach(key => {
+//   let minutes = parseFloat(summarydata[key].total_minutes);
+//   pieData.push({
+//     name: key,
+//     y: moment.duration({ minutes: minutes }).asHours(),
+//     drilldown: key,
+//     color: getColor(key)
+//   });
+// });
 
 var PieSeries = [
   {
@@ -68,121 +68,57 @@ var PieSeries = [
   }
 ];
 
-const getData = data => {
-  let ret = [];
-  let array = Object.keys(data);
-  array.shift();
-  array.forEach(key => {
-    let minutes = parseFloat(data[key]);
-    let hours = moment.duration({ minutes: minutes }).asHours();
-    ret.push([key, hours]);
-  });
-  return ret;
-};
-
-var drilldownSeries = [];
-Object.keys(summarydata).forEach(key => {
-  drilldownSeries.push({
-    name: key,
-    id: key,
-    data: getData(summarydata[key])
-  });
-});
-
-// var drilldownSeries = [
-//   {
-//     name: "Halt",
-//     id: "Halt",
-//     data: [
-//       ["OCP Stop", 23],
-//       ["Wait for Loading", 12],
-//       ["Intermediate Draft survey", 42]
-//     ]
-//   },
-//   {
-//     name: "Incident Quality",
-//     id: "Incident Quality",
-//     data: [
-//       ["Product Colour", 2],
-//       ["Precense of Clods", 10],
-//       ["High product Temperature", 24],
-//       ["Contamination by other product", 20]
-//     ]
-//   },
-//   {
-//     name: "Weather",
-//     id: "Weather",
-//     data: [
-//       ["High Dust Rate", 2],
-//       ["High Humidity", 2],
-//       ["Rain/Bad Weather", 2]
-//     ]
-//   }
-// ];
-
-// var eventsData = {
-//   halt: [
-//     {
-//       day: "2019-11-15T12:29:07.492000Z",
-//       duration: "115.973",
-//       type: "Arrêt OCP"
-//     },
-//     {
-//       day: "2019-11-15T13:35:30.851000Z",
-//       duration: "477.057",
-//       type: "Attente OCP pour début chargement"
-//     }
-//   ],
-//   incident: [
-//     {
-//       day: "2019-11-15T12:54:21.567000Z",
-//       duration: "23.056",
-//       type: "Humidity"
-//     },
-//     {
-//       day: "2019-11-15T12:56:21.926000Z",
-//       duration: "69.87",
-//       type: "Temperature"
-//     },
-//     {
-//       day: "2019-11-15T12:59:35.564000Z",
-//       duration: "17.866",
-//       type: "Débris de Caoutchouc / Corps étranger"
-//     },
-//     {
-//       day: "2019-11-15T13:05:14.076000Z",
-//       duration: "14.874",
-//       type: "Motte"
-//     },
-//     {
-//       day: "2019-11-15T13:44:12.532000Z",
-//       duration: "35.853",
-//       type: "Couleur du produit"
-//     },
-//     {
-//       day: "2019-11-15T14:49:29.171000Z",
-//       duration: "17.528",
-//       type: "Motte"
-//     }
-//   ],
-//   weather: [
-//     {
-//       day: "2019-11-15T12:31:31.864000Z",
-//       duration: "818.249",
-//       type: "Pluie"
-//     },
-//     {
-//       day: "2019-11-15T12:48:19.801000Z",
-//       duration: "9.166",
-//       type: "Pluie"
-//     },
-//     {
-//       day: "2019-11-15T13:02:46.783000Z",
-//       duration: "72.237",
-//       type: "Mauvais temps"
-//     }
-//   ]
+// const getData = data => {
+//   let ret = [];
+//   let array = Object.keys(data);
+//   array.shift();
+//   array.forEach(key => {
+//     let minutes = parseFloat(data[key]);
+//     let hours = moment.duration({ minutes: minutes }).asHours();
+//     ret.push([key, hours]);
+//   });
+//   return ret;
 // };
+
+// var drilldownSeries = [];
+// Object.keys(summarydata).forEach(key => {
+//   drilldownSeries.push({
+//     name: key,
+//     id: key,
+//     data: getData(summarydata[key])
+//   });
+// });
+
+var drilldownSeries = [
+  {
+    name: "Halt",
+    id: "Halt",
+    data: [
+      ["OCP Stop", 23],
+      ["Wait for Loading", 12],
+      ["Intermediate Draft survey", 42]
+    ]
+  },
+  {
+    name: "Incident Quality",
+    id: "Incident Quality",
+    data: [
+      ["Product Colour", 2],
+      ["Precense of Clods", 10],
+      ["High product Temperature", 24],
+      ["Contamination by other product", 20]
+    ]
+  },
+  {
+    name: "Weather",
+    id: "Weather",
+    data: [
+      ["High Dust Rate", 2],
+      ["High Humidity", 2],
+      ["Rain/Bad Weather", 2]
+    ]
+  }
+];
 
 var AreaSeries = [
   {
@@ -241,6 +177,68 @@ var AreaHaltSeries = [
   }
 ];
 
+var AreaIncidentSeries = [
+  {
+    name: "Product Colour",
+    data: [
+      [Date.UTC(2019, 8, 1), 12],
+      [Date.UTC(2019, 9, 1), 37],
+      [Date.UTC(2019, 10, 1), 29]
+    ]
+  },
+  {
+    name: "Precense of Clods",
+    data: [
+      [Date.UTC(2019, 8, 1), 10],
+      [Date.UTC(2019, 9, 1), 67],
+      [Date.UTC(2019, 10, 1), 37]
+    ]
+  },
+  {
+    name: "High product Temperature",
+    data: [
+      [Date.UTC(2019, 8, 1), 20],
+      [Date.UTC(2019, 9, 1), 100],
+      [Date.UTC(2019, 10, 1), 120]
+    ]
+  },
+  {
+    name: "Contamination by other product",
+    data: [
+      [Date.UTC(2019, 8, 1), 20],
+      [Date.UTC(2019, 9, 1), 100],
+      [Date.UTC(2019, 10, 1), 120]
+    ]
+  }
+];
+
+var AreaWeatherSeries = [
+  {
+    name: "High Dust Rate",
+    data: [
+      [Date.UTC(2019, 8, 1), 12],
+      [Date.UTC(2019, 9, 1), 37],
+      [Date.UTC(2019, 10, 1), 29]
+    ]
+  },
+  {
+    name: "High Humidity",
+    data: [
+      [Date.UTC(2019, 8, 1), 10],
+      [Date.UTC(2019, 9, 1), 67],
+      [Date.UTC(2019, 10, 1), 37]
+    ]
+  },
+  {
+    name: "Rain/Bad Weather",
+    data: [
+      [Date.UTC(2019, 8, 1), 20],
+      [Date.UTC(2019, 9, 1), 100],
+      [Date.UTC(2019, 10, 1), 120]
+    ]
+  }
+];
+
 // const getEventsData = data => {
 //   let ret = [];
 //   data.forEach(item => {
@@ -261,6 +259,7 @@ class Stoppage extends Component {
       seriesOptions: AreaSeries
     };
     this.chart = {};
+    this.lastSeries = AreaSeries;
     this.getEvent = this.getEvent.bind(this);
     this.getChart = this.getChart.bind(this);
     this.updateChart = this.updateChart.bind(this);
@@ -268,8 +267,10 @@ class Stoppage extends Component {
   }
 
   updateChart(series) {
-    for (let i = 0; i < series.length; i += 1) {
-      this.chart.series[0].remove();
+    for (let i = 0; i < this.lastSeries.length; i += 1) {
+      if (this.chart.series[0]) {
+        this.chart.series[0].remove();
+      }
     }
     this.chart.redraw(true);
 
@@ -278,10 +279,11 @@ class Stoppage extends Component {
     });
     this.chart.redraw(true);
     // this.chart.hideLoading();
+    this.lastSeries = series;
   }
 
   getEvent(e) {
-    if (e.type === "drilldown" && e.seriesOptions.name === "halt") {
+    if (e.type === "drilldown" && e.seriesOptions.name === "Halt") {
       //   this.setState({
       //     seriesOptions: AreaHaltSeries
       //   });
@@ -293,6 +295,13 @@ class Stoppage extends Component {
       //   });
       //   this.chart.redraw();
       this.updateChart(AreaHaltSeries);
+    } else if (
+      e.type === "drilldown" &&
+      e.seriesOptions.name === "Incident Quality"
+    ) {
+      this.updateChart(AreaIncidentSeries);
+    } else if (e.type === "drilldown" && e.seriesOptions.name === "Weather") {
+      this.updateChart(AreaWeatherSeries);
     } else if (e.type === "drillup") {
       //   setTimeout(() => {
       //     this.setState({
@@ -348,14 +357,14 @@ class Stoppage extends Component {
             </div>
             <PieStoppageChart
               seriesOptions={PieSeries}
-              drillDownSeries={drilldownSeries}
+              drilldownSeries={drilldownSeries}
               getEvent={this.getEvent}
             />
           </Card>
         </Col>
         <Col span={16}>
           <Card bordered={false}>
-            <p className="charts-title">Events Historical</p>
+            <p className="charts-title">Stoppage Historical</p>
             <br />
             <AreaStoppageChart
               seriesOptions={this.state.seriesOptions}

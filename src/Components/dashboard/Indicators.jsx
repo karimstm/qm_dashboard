@@ -32,15 +32,15 @@ const tabListInspectors = [
 ];
 
 const contentListEvents = {
-  all: <p className="indicators-content">{20}</p>,
-  incident: <p className="indicators-content">{20}</p>,
-  halt: <p className="indicators-content">{20}</p>,
-  weather: <p className="indicators-content">{20}</p>
+  all: <p className="indicators-content">{8}</p>,
+  incident: <p className="indicators-content">{0}</p>,
+  halt: <p className="indicators-content">{2}</p>,
+  weather: <p className="indicators-content">{5}</p>
 };
 
 const contentListInspectors = {
   active: <p className="indicators-content">{20}</p>,
-  waiting: <p className="indicators-content">{20}</p>
+  waiting: <p className="indicators-content">{4}</p>
 };
 
 export class Indicators extends Component {
@@ -83,12 +83,12 @@ export class Indicators extends Component {
             ]}
             bordered={false}
           >
-            <p className="indicators-content">{20}</p>
+            <p className="indicators-content">{11}</p>
           </Card>
         </Col>
         <Col span={6}>
           <Card
-            className="indicators-card"
+            className="indicators-card events"
             title={
               <span className="indicators-title">
                 Events
@@ -111,7 +111,7 @@ export class Indicators extends Component {
         </Col>
         <Col span={6}>
           <Card
-            className="indicators-card"
+            className="indicators-card inspectors"
             title={
               <span className="indicators-title">
                 Inspectors

@@ -4,6 +4,8 @@ import HighchartsReact from "highcharts-react-official";
 
 import { quantityChartOptions } from "../../variables/charts";
 
+require("highcharts/modules/drilldown")(Highcharts);
+
 class QuantityChart extends Component {
   constructor(props) {
     super(props);
@@ -12,10 +14,11 @@ class QuantityChart extends Component {
   afterChartCreated(chart) {}
 
   render() {
+    const { seriesOptions, drilldownSeries } = this.props;
     return (
       <HighchartsReact
         highcharts={Highcharts}
-        options={quantityChartOptions(this.props.seriesOptions)}
+        options={quantityChartOptions(seriesOptions, drilldownSeries)}
         callback={this.afterChartCreated}
       />
     );

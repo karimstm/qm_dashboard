@@ -48,7 +48,8 @@ class AppLayout extends Component {
               margin: "24px 16px 0 16px",
               padding: 24,
               // background: "#fff",
-              background: "#f4f3ef",
+              // background: "#f4f3ef",
+              background: "rgba(238, 238, 238, 0.35)",
               minHeight: 280
             }}
           >

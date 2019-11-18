@@ -1,52 +1,33 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, Select } from 'antd';
-import { FetchType, PostFamily } from '../../actions/product';
+import { PostClient } from '../../actions/client';
 import { connect } from 'react-redux';
-import { openNotification } from '../NotificationMessages';
+import { openNotification, successNotifiaction } from '../NotificationMessages';
+import { TYPE_INSERT_SUCCESS } from '../../actions/types';
 
 
-const { Option } = Select;
-
-
-class Family extends Component {
+class Client extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.props.PostFamily(values)
+                console.log(values)
+                this.props.PostClient(values)
+                .then(res => {
+                    if (res.type === TYPE_INSERT_SUCCESS)
+                        successNotifiaction("Client has been added successfuly")
+                })
             }
         });
     };
 
 
-    // Fetch categories from the back-end
-    fetchtypes = async () => {
-        const { FetchType } = this.props;
-        await FetchType();
-    }
-
-    // Fetch types once the component is mounted
-    componentDidMount(){
-        this.fetchtypes()
-    }
-
-    // Render list of categories
-    rendertypes = () => {
-        const { error, types } = this.props
-        if (!error && types.length)
-        {
-            return types.map((value) => {
-                return <Option key={ value.id } value={ value.id }>{ value.name }</Option>   
-            })
-        }
-        return null
-    }
-
     render() {
 
         const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
-        const productNameError = isFieldTouched('name') && getFieldError('name');
+        const clientNameError = isFieldTouched('name') && getFieldError('name');
+        const clientDestinationError = isFieldTouched('destination') && getFieldError('destination');
         const { error } = this.props;
 
         if (error )
@@ -54,23 +35,24 @@ class Family extends Component {
         return (
             <>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Item validateStatus={productNameError ? 'error' : ''} help={productNameError || ''}>
+                    <Form.Item validateStatus={clientNameError ? 'error' : ''} help={clientNameError || ''}>
                         {getFieldDecorator('name', {
                             rules: [{ required: true, message: 'Please enter a name' }],
                         })(
                             <Input
                                 prefix={<Icon type="shopping-cart" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Product Family Name"
+                                placeholder="Client Name"
                             />,
                         )}
                     </Form.Item>
-                    <Form.Item hasFeedback>
-                        {getFieldDecorator('product_type_ref', {
-                            rules: [{ required: true, message: 'Please select a Category!' }],
+                    <Form.Item validateStatus={clientDestinationError ? 'error' : ''} help={clientDestinationError || ''}>
+                        {getFieldDecorator('destination', {
+                            rules: [{ required: true, message: 'Please enter a destination' }],
                         })(
-                            <Select placeholder="Please select a Type">
-                                { this.rendertypes() }
-                            </Select>,
+                            <Input
+                                prefix={<Icon type="shopping-cart" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                placeholder="Client Destination"
+                            />,
                         )}
                     </Form.Item>
                     <Form.Item>
@@ -92,14 +74,13 @@ class Family extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        types: state.types.types,
-        error: state.types.error,
+        types: state.clients.clients,
+        error: state.clients.error,
     }
 }
 
 export default connect(
     mapStateToProps, {
-        FetchType,
-        PostFamily
+        PostClient
     }
-)(Form.create({ name: 'horizontal_product' })(Family));
+)(Form.create({ name: 'horizontal_product' })(Client));

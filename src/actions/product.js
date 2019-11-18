@@ -44,6 +44,8 @@ export const FetchCategroy = () => async dispatch => {
 export const PostProduct = (data) => async dispatch => {
     const response = await axios.post('product/', data)
     .catch(err => {
+        if (err.response.data.name)
+            return dispatch({ type: PRODUCT_INSERT_FAILURE, error: "Product Insert: " + err.response.data.name[0] })
         return dispatch({ type: PRODUCT_INSERT_FAILURE, error: "Product Insert: " + err.response.data.detail })
     })
     if (response.status === 201)

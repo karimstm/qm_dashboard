@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, Select } from 'antd';
-import { FetchType, PostFamily } from '../../actions/product';
+import { PostType } from '../../actions/product';
 import { connect } from 'react-redux';
-import { openNotification } from '../NotificationMessages';
-
-
-const { Option } = Select;
-
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
+import { openNotification, successNotifiaction } from '../NotificationMessages';
+import { TYPE_INSERT_SUCCESS } from '../../actions/types';
 
 
 class Type extends Component {
@@ -19,7 +13,11 @@ class Type extends Component {
         this.props.form.validateFields((err, values) => {
             console.log(values)
             if (!err) {
-                this.props.PostFamily(values)
+                this.props.PostType(values)
+                .then(res => {
+                    if (res.type === TYPE_INSERT_SUCCESS)
+                        successNotifiaction("Product type has been added successfuly")
+                })
             }
         });
     };
@@ -29,7 +27,7 @@ class Type extends Component {
 
         const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
         const productNameError = isFieldTouched('name') && getFieldError('name');
-        const { error, insertError } = this.props;
+        const { error } = this.props;
 
         if (error )
             openNotification(error)

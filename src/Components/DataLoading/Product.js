@@ -7,11 +7,6 @@ import { openNotification } from '../NotificationMessages';
 
 const { Option } = Select;
 
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
-
-
 class Product extends Component {
 
     handleSubmit = e => {
@@ -54,8 +49,10 @@ class Product extends Component {
         const productNameError = isFieldTouched('name') && getFieldError('name');
         const { error, insertError } = this.props;
 
-        if (error || insertError )
+        if (error )
             openNotification(error)
+        else if (insertError)
+            openNotification(insertError)
         return (
             <>
                 <Form onSubmit={this.handleSubmit}>

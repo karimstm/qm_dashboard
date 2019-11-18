@@ -3,6 +3,8 @@ import { Dropdown, Button, Menu, Icon } from 'antd';
 import Product from './Product';
 import Category from './Category';
 import Family from './Family';
+import Type from './Type';
+import Client from './Client';
 
 
 
@@ -16,7 +18,10 @@ class DropdownList extends Component {
         else if (key === "3")
             this.props.action(Family, "Family")
         else if (key === "4")
-            this.props.action(Family, "Family")
+            this.props.action(Type, "Type")
+        else if (key === "5")
+            this.props.action(Client, "Client")
+        
     }
 
     menuList = (
@@ -32,6 +37,18 @@ class DropdownList extends Component {
           </Menu.Item>
             <Menu.Item key="4">
                 Type
+          </Menu.Item>
+          <Menu.Item key="5">
+                Client
+          </Menu.Item>
+          <Menu.Item key="6">
+                Origin
+          </Menu.Item>
+          <Menu.Item key="7">
+                Vesset
+          </Menu.Item>
+          <Menu.Item key="8">
+                Port
           </Menu.Item>
         </Menu>
     );

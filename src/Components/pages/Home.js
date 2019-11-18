@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import AppLayout from "../Layout/Layout";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import Dashboard from "../dashboard/Dashboard";
 
 class Home extends Component {
   render() {
     if (!this.props.isAuth) return <Redirect to="/login" />;
-    return <AppLayout component={<h1>Test</h1>} />;
+    return <AppLayout component={<Dashboard />} />;
   }
 }
 

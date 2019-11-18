@@ -1,0 +1,121 @@
+div.ant-card {
+  background: #ffffff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  width: 100%;
+  /* border-radius: 6px; */
+}
+
+div.ant-card-body {
+  padding: 10px;
+}
+
+div.indicators-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 10px -4px rgba(180, 125, 125, 0.15);
+  background-color: #ffffff;
+  color: #252422;
+  margin-bottom: 22px;
+  /* position: relative; */
+  border: 0 none;
+}
+
+ul.ant-card-actions {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background: #ffffff;
+}
+
+p.indicators-content {
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.highcharts-credits {
+  display: none;
+}
+
+.charts-title {
+  /* padding: 5px 0px 0px 0px; */
+  text-transform: capitalize;
+  /* margin: 5px 0px 0px 5px; */
+  color: #404e67;
+  line-height: 19px;
+  /* font-weight: 600; */
+  font-family: "Calibri";
+  font-size: 24px;
+}
+
+i.anticon.anticon-setting {
+  font-size: 20px;
+  position: absolute;
+  top: 2%;
+  left: calc(99% - 20px);
+  color: rgb(24, 222, 255);
+}
+
+i.anticon.anticon-setting:hover {
+  color: rgb(24, 144, 255);
+  rotate: "120deg";
+  transition: all 300ms ease-in-out;
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+}
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.chart-setting {
+  display: block;
+  height: 20px;
+}
+
+.date-picker {
+  float: right;
+}
+
+.indicators-icon {
+  float: right;
+  font-size: 25px;
+}
+
+.indicators-title {
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  text-transform: capitalize;
+  font-weight: 400;
+  color: #9a9a9a;
+  font-size: 16px;
+  line-height: 1.4em;
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+
+span.indicators-action {
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  float: left;
+  margin-left: 7px;
+}
+
+i.anticon.anticon-sync {
+  color: #66615b;
+  font-size: 15px;
+  margin-right: 6px;
+  position: relative;
+  top: -3px;
+}

@@ -3,6 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import Sider from "../Sider/Sider";
 import { Layout, Icon } from "antd";
 import "./Layout.css";
+import "../../assets/css/dashboard.css";
 import SiderMenu from "../SiderMenu/SiderMenu";
 import Logo from "../../Logo.png";
 const { Header, Content } = Layout;
@@ -46,7 +47,8 @@ class AppLayout extends Component {
             style={{
               margin: "24px 16px 0 16px",
               padding: 24,
-              background: "#fff",
+              // background: "#fff",
+              background: "#f4f3ef",
               minHeight: 280
             }}
           >

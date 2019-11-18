@@ -1,58 +1,36 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button, Select } from 'antd';
-import { FetchCategroy, PostProduct } from '../../actions/product';
+import { PostType } from '../../actions/product';
 import { connect } from 'react-redux';
-import { openNotification } from '../NotificationMessages';
+import { openNotification, successNotifiaction } from '../NotificationMessages';
+import { TYPE_INSERT_SUCCESS } from '../../actions/types';
 
 
-const { Option } = Select;
-
-class Product extends Component {
+class Type extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             console.log(values)
             if (!err) {
-                this.props.PostProduct(values)
+                this.props.PostType(values)
+                .then(res => {
+                    if (res.type === TYPE_INSERT_SUCCESS)
+                        successNotifiaction("Product type has been added successfuly")
+                })
             }
         });
     };
 
 
-    // Fetch categories from the back-end
-    fetchCategories = async () => {
-        const { FetchCategroy } = this.props;
-        await FetchCategroy();
-    }
-
-    // Fetch Categories once the component is mounted
-    componentDidMount(){
-        this.fetchCategories()
-    }
-
-    // Render list of categories
-    renderCategories = () => {
-        const { error, categories } = this.props
-        if (!error && categories.length)
-        {
-            return categories.map((value) => {
-                return <Option key={ value.id } value={ value.id }>{ value.name }</Option>   
-            })
-        }
-        return null
-    }
-
     render() {
 
         const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
         const productNameError = isFieldTouched('name') && getFieldError('name');
-        const { error, insertError } = this.props;
+        const { error } = this.props;
 
         if (error )
             openNotification(error)
-        else if (insertError)
-            openNotification(insertError)
         return (
             <>
                 <Form onSubmit={this.handleSubmit}>
@@ -62,17 +40,8 @@ class Product extends Component {
                         })(
                             <Input
                                 prefix={<Icon type="shopping-cart" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Product Name"
+                                placeholder="Product Type Name"
                             />,
-                        )}
-                    </Form.Item>
-                    <Form.Item hasFeedback>
-                        {getFieldDecorator('product_category_ref', {
-                            rules: [{ required: true, message: 'Please select a Category!' }],
-                        })(
-                            <Select placeholder="Please select a Category">
-                                { this.renderCategories() }
-                            </Select>,
                         )}
                     </Form.Item>
                     <Form.Item>
@@ -94,15 +63,13 @@ class Product extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        categories: state.categories.categories,
-        error: state.categories.error,
-        insertError: state.products.error
+        types: state.types.types,
+        error: state.types.error,
     }
 }
 
 export default connect(
     mapStateToProps, {
-        FetchCategroy,
-        PostProduct
+        PostType
     }
-)(Form.create({ name: 'horizontal_product' })(Product));
+)(Form.create({ name: 'horizontal_product' })(Type));

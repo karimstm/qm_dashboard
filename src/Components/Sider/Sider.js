@@ -32,9 +32,11 @@ class Siders extends Component {
         </div>
         <div id="side-menu">
           <Link to="/">
-            <div className="item">
-              <Icon type="home" />
-            </div>
+          <Tooltip placement="right" title="Home">
+              <div className="item">
+                <Icon type="dashboard" />
+              </div>
+            </Tooltip>
           </Link>
         </div>
         <div id="side-menu">
@@ -42,6 +44,15 @@ class Siders extends Component {
             <Tooltip placement="right" title="Database loading">
               <div className="item">
                 <Icon type="database" />
+              </div>
+            </Tooltip>
+          </Link>
+        </div>
+        <div id="side-menu">
+          <Link to="/users/approval">
+            <Tooltip placement="right" title="Users Approval">
+              <div className="item">
+                <Icon type="usergroup-add" />
               </div>
             </Tooltip>
           </Link>

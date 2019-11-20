@@ -5,6 +5,7 @@ import { categoryReducer } from './categoryReducer';
 import { familyReducer } from './FamilyReducer';
 import { typeReducer } from './typeReducer';
 import { clientReducer } from "./clientReducer";
+import { usersReducer } from "./users";
 
 export default combineReducers({
   auth,
@@ -12,5 +13,6 @@ export default combineReducers({
   categories: categoryReducer,
   families: familyReducer,
   types: typeReducer,
-  clients: clientReducer
+  clients: clientReducer,
+  users: usersReducer
 });

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import AppLayout from '../Layout/Layout';
+import UserApprovals from '../Users/UserApprovals';
 import DataLoading from '../DataLoading/DataLoading';
 
-class Data extends Component {
+class UserApprovalPage extends Component {
+
     render() {
         return (
-            <AppLayout component={ <DataLoading /> } />
+            <AppLayout component={ UserApprovals } />
         );
     }
 }
 
-export default Data;
+export default UserApprovalPage;

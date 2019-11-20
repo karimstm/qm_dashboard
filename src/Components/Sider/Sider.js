@@ -49,6 +49,15 @@ class Siders extends Component {
           </Link>
         </div>
         <div id="side-menu">
+          <Link to="/users">
+            <Tooltip placement="right" title="Users List">
+              <div className="item">
+                <Icon type="smile" />
+              </div>
+            </Tooltip>
+          </Link>
+        </div>
+        <div id="side-menu">
           <Link to="/users/approval">
             <Tooltip placement="right" title="Users Approval">
               <div className="item">

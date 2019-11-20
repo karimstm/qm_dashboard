@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import Navbar from "../Navbar/Navbar";
 import Sider from "../Sider/Sider";
 import { Layout, Icon } from "antd";
@@ -8,7 +9,7 @@ import SiderMenu from "../SiderMenu/SiderMenu";
 import Logo from "../../Logo.png";
 const { Header, Content } = Layout;
 
-class AppLayout extends Component {
+class AppLayout extends React.Component {
   constructor(props) {
     super(props);
     this.onClose = this.onClose.bind(this);
@@ -30,6 +31,7 @@ class AppLayout extends Component {
   };
 
   render() {
+    const { component: Component } = this.props;
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider with={this.state.collapsed} />
@@ -45,20 +47,29 @@ class AppLayout extends Component {
 
           <Content
             style={{
+              background: `${this.props.background}`,
               margin: "24px 16px 0 16px",
               padding: 24,
               // background: "#fff",
               // background: "#f4f3ef",
-              background: "rgba(238, 238, 238, 0.35)",
+              // background: "rgba(238, 238, 238, 0.35)",
               minHeight: 280
             }}
           >
-            {this.props.component}
+            { <Component /> }
           </Content>
         </Layout>
       </Layout>
     );
   }
 }
+
+AppLayout.propTypes = {
+  background: PropTypes.string.isRequired
+};
+
+AppLayout.defaultProps = {
+  background: "#fff"
+};
 
 export default AppLayout;

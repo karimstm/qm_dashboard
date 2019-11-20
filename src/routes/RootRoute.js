@@ -7,7 +7,8 @@ import Login from "../Components/Auth/LoginForm";
 import NotFound from "../Components/pages/notFound";
 import { connect } from "react-redux";
 import Data from "../Components/pages/Data";
-import UserApproval from "../Components/Users/UserApproval";
+import UserApprovalPage from "../Components/pages/UserApprovalPage";
+import UsersListPage from "../Components/pages/UsersListPage";
 
 class RootRoute extends Component {
   render() {
@@ -24,9 +25,13 @@ class RootRoute extends Component {
           exact
           component={Data} />
         <Route
+          path="/users"
+          exact
+          component={UsersListPage} />
+        <Route
           path="/users/approval"
           exact
-          component={UserApproval} />
+          component={ UserApprovalPage } />
           
         <Route path="*" component={NotFound} />
       </Switch>

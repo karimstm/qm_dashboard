@@ -10,9 +10,9 @@ var pieData = [
     name: "Incident Quality",
     y: 56,
     drilldown: "Incident Quality",
-    color: "#FBC658"
+    color: "#EF8157"
   },
-  { name: "Halt", y: 77, drilldown: "Halt", color: "#EF8157" },
+  { name: "Halt", y: 77, drilldown: "Halt", color: "#FBC658" },
   { name: "Weather", y: 12, drilldown: "Weather", color: "#51CBCE" }
 ];
 
@@ -123,7 +123,7 @@ var drilldownSeries = [
 var AreaSeries = [
   {
     name: "Halt",
-    color: "#EF8157",
+    color: "#FBC658",
     data: [
       [Date.UTC(2019, 8, 1), 77],
       [Date.UTC(2019, 9, 1), 88],
@@ -132,7 +132,7 @@ var AreaSeries = [
   },
   {
     name: "Incident Quality",
-    color: "#FBC658",
+    color: "#EF8157",
     data: [
       [Date.UTC(2019, 8, 1), 12],
       [Date.UTC(2019, 9, 1), 90],
@@ -256,7 +256,8 @@ class Stoppage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seriesOptions: AreaSeries
+      seriesOptions: AreaSeries,
+      rangeSelected: "Week"
     };
     this.chart = {};
     this.lastSeries = AreaSeries;
@@ -324,7 +325,7 @@ class Stoppage extends Component {
   }
 
   handleSelect(item) {
-    console.log(item.props.children);
+    this.setState({ rangeSelected: item.props.children });
   }
 
   render() {
@@ -346,6 +347,9 @@ class Stoppage extends Component {
         <Col span={8}>
           <Card bordered={false}>
             <p className="charts-title">Stoppage Summary</p>
+            <p className="charts-subtitle">
+              One&nbsp;{this.state.rangeSelected}
+            </p>
             <div className="chart-setting">
               <Dropdown
                 overlay={menu}

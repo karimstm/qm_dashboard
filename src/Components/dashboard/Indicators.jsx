@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Col, Card, Icon } from "antd";
+import { Col, Card, Icon, Tag } from "antd";
+import { api_key, api_weather } from "../../actions/config";
+import Axios from "axios";
+import moment from "moment";
+
+const { CheckableTag } = Tag;
+
+var interval;
 
 const tabListEvents = [
   {
@@ -20,17 +27,6 @@ const tabListEvents = [
   }
 ];
 
-const tabListInspectors = [
-  {
-    key: "active",
-    tab: "Active"
-  },
-  {
-    key: "waiting",
-    tab: "Waiting"
-  }
-];
-
 const contentListEvents = {
   all: <p className="indicators-content">{8}</p>,
   incident: <p className="indicators-content">{0}</p>,
@@ -38,31 +34,132 @@ const contentListEvents = {
   weather: <p className="indicators-content">{5}</p>
 };
 
-const contentListInspectors = {
-  active: <p className="indicators-content">{20}</p>,
-  waiting: <p className="indicators-content">{4}</p>
+const weatherIcons = {
+  Thunderstorm: "wi-thunderstorm",
+  Drizzle: "wi-sleet",
+  Rain: "wi-storm-showers",
+  Snow: "wi-snow",
+  Fog: "wi-fog",
+  Clear: "wi-day-sunny",
+  Clouds: "wi-day-fog"
 };
+
+const cities = [
+  { key: "jorf", name: "JORF" },
+  { key: "safi", name: "SAFI" },
+  { key: "casablanca", name: "CASA" }
+];
 
 export class Indicators extends Component {
   constructor(props) {
     super(props);
     this.state = {
       eventsKey: "all",
-      inspectorsKey: "active"
+      weatherKey: "casablanca",
+      city: undefined,
+      country: undefined,
+      temp: undefined,
+      wind: undefined,
+      humidity: undefined,
+      desc: "",
+      idIcon: undefined,
+      icon: undefined,
+      date: undefined,
+      checked: true
     };
+    this.getWeather = this.getWeather.bind(this);
+    this.getDate = this.getDate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange = (key, checked) => {
+    this.setState({ weatherKey: key, checked }, () => {
+      this.getWeather();
+    });
+  };
+
+  getWeather = () => {
+    Axios.get(
+      `${api_weather}find?q=${this.state.weatherKey},ma&units=metric&appid=${api_key}`
+    )
+      .then(resp => {
+        const list = resp.data.list[0];
+        if (list) {
+          this.setState(
+            {
+              city: list.name,
+              country: list.sys.country,
+              temp: Math.floor(list.main.temp),
+              wind: list.wind.speed,
+              humidity: list.main.humidity,
+              desc: list.weather[0].description,
+              idIcon: list.weather[0].id
+            },
+            () => {
+              this.getWeatherIcon(weatherIcons, this.state.idIcon);
+            }
+          );
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  getWeatherIcon(weatherIcons, id) {
+    switch (true) {
+      case id >= 200 && id < 232:
+        this.setState({ icon: weatherIcons.Thunderstorm });
+        break;
+      case id >= 300 && id <= 321:
+        this.setState({ icon: weatherIcons.Drizzle });
+        break;
+      case id >= 500 && id <= 521:
+        this.setState({ icon: weatherIcons.Rain });
+        break;
+      case id >= 600 && id <= 622:
+        this.setState({ icon: weatherIcons.Snow });
+        break;
+      case id >= 701 && id <= 781:
+        this.setState({ icon: weatherIcons.Fog });
+        break;
+      case id === 800:
+        this.setState({ icon: weatherIcons.Clear });
+        break;
+      case id >= 801 && id <= 804:
+        this.setState({ icon: weatherIcons.Clouds });
+        break;
+      default:
+        this.setState({ icon: weatherIcons.Clouds });
+    }
   }
 
   onTabChange = (key, type) => {
-    console.log(key, type);
     this.setState({ [type]: key });
   };
+
+  getDate() {
+    interval = setInterval(
+      function() {
+        this.setState({ date: moment(Date.now()).format("dddd, h:mm A") });
+      }.bind(this),
+      1000
+    );
+  }
+
+  componentDidMount() {
+    this.getWeather();
+    this.getDate();
+  }
+
+  componentWillUnmount() {
+    clearInterval(interval);
+  }
 
   render() {
     return (
       <div>
-        <Col span={6}>
+        <Col xs={24} sm={12} lg={8} xl={8}>
           <Card
-            className="indicators-card"
+            className="indicators-card inspections"
             size="default"
             title={
               <span className="indicators-title">
@@ -83,10 +180,41 @@ export class Indicators extends Component {
             ]}
             bordered={false}
           >
-            <p className="indicators-content">{11}</p>
+            <div className="indicators-content inspections">
+              <div className="indicators-content ongoing">
+                {11}
+                <span
+                  className="indicators-subtitle"
+                  style={{ color: "#52c41a" }}
+                >
+                  Ongoing
+                  <Icon
+                    className="inspections-icon"
+                    type="safety-certificate"
+                    theme="twoTone"
+                    twoToneColor="#52c41a"
+                  />
+                </span>
+              </div>
+              <div className="indicators-content onhold">
+                {2}
+                <span
+                  className="indicators-subtitle"
+                  style={{ color: "#ffad87" }}
+                >
+                  On-hold
+                  <Icon
+                    className="inspections-icon"
+                    type="warning"
+                    theme="twoTone"
+                    twoToneColor="#ffad87"
+                  />
+                </span>
+              </div>
+            </div>
           </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} sm={12} lg={9} xl={9}>
           <Card
             className="indicators-card events"
             title={
@@ -109,52 +237,60 @@ export class Indicators extends Component {
             {contentListEvents[this.state.eventsKey]}
           </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} sm={24} lg={7} xl={7}>
           <Card
-            className="indicators-card inspectors"
+            className="indicators-card weather"
             title={
-              <span className="indicators-title">
-                Inspectors
-                <Icon
-                  className="indicators-icon"
-                  type="team"
-                  theme="outlined"
-                />
-              </span>
+              <div className="weather-head">
+                <div className="weather-header">
+                  <span className="indicators-title">
+                    {this.state.city}, {this.state.country}
+                  </span>
+                  <span className="weather-date">{this.state.date}</span>
+                </div>
+                <div className="city-tag">
+                  {cities.map((city, index) => {
+                    return (
+                      <CheckableTag
+                        key={city.key}
+                        checked={
+                          this.state.weatherKey === city.key
+                            ? this.state.checked
+                            : !this.state.checked
+                        }
+                        onChange={checked => {
+                          this.handleChange(city.key, checked);
+                        }}
+                      >
+                        {city.name}
+                      </CheckableTag>
+                    );
+                  })}
+                </div>
+              </div>
             }
             bordered={false}
-            tabList={tabListInspectors}
-            activeTabKey={this.state.inspectorsKey}
-            onTabChange={key => {
-              this.onTabChange(key, "inspectorsKey");
-            }}
           >
-            {contentListInspectors[this.state.inspectorsKey]}
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-            className="indicators-card"
-            title={
-              <span className="indicators-title">
-                On holds
-                <Icon
-                  className="indicators-icon"
-                  type="hourglass"
-                  theme="twoTone"
-                  twoToneColor="#ffad87"
-                />
+            <div className="weather-content">
+              <span className="weather-info">
+                <span>
+                  <span className="temp-info">{this.state.temp}&deg;C</span>
+                  <span className="weather-desc">
+                    <Tag color="purple">{this.state.desc}</Tag>
+                  </span>
+                </span>
+                <span className="wind-humid-info">
+                  <i className="wi wi-strong-wind"></i>
+                  {this.state.wind}&nbsp;km/h&nbsp;Winds
+                  <i className="wi wi-humidity"></i>
+                  {this.state.humidity}
+                  %&nbsp;Humidity
+                </span>
               </span>
-            }
-            actions={[
-              <span className="indicators-action">
-                <Icon type="sync" />
-                Update Now
+              <span className="weather-icon">
+                <i className={`wi ${this.state.icon} display-4`}></i>
               </span>
-            ]}
-            bordered={false}
-          >
-            <p className="indicators-content">{2}</p>
+            </div>
           </Card>
         </Col>
       </div>

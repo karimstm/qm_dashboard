@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-
 import { stoppagePieChartOptions } from "../../variables/charts";
 
 require("highcharts/modules/drilldown")(Highcharts);

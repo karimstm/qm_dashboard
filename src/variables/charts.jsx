@@ -2,7 +2,18 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
   return {
     chart: {
       type: "pie",
+      //   options3d: {
+      //     enabled: true,
+      //     alpha: 45,
+      //     beta: 0
+      //   },
+      //   margin: [0, 0, 0, 0],
       events: {
+        load: function(chart) {
+          setTimeout(function() {
+            chart.target.reflow();
+          });
+        },
         drilldown: e => getEvent(e),
         drillup: e => getEvent(e)
       }
@@ -20,7 +31,9 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
         innerSize: "60%"
       },
       pie: {
+        allowPointSelect: true,
         cursor: "pointer",
+        // depth: 35,
         dataLabels: {
           enabled: false
         },
@@ -59,7 +72,14 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
 const stoppageAreaChartOptions = seriesOptions => {
   return {
     chart: {
-      type: "areaspline"
+      type: "areaspline",
+      events: {
+        load: function(chart) {
+          setTimeout(function() {
+            chart.target.reflow();
+          });
+        }
+      }
     },
     title: {
       text: ""
@@ -111,18 +131,66 @@ const stoppageAreaChartOptions = seriesOptions => {
   };
 };
 
-const quantityChartOptions = (seriesOptions, drilldownSeries) => {
-  console.log(seriesOptions);
-  console.log(drilldownSeries);
+const quantityChartOptions = (
+  seriesOptions,
+  drilldownSeries,
+  getEvent,
+  Highcharts
+) => {
+  //   console.log(seriesOptions);
+  //   console.log(drilldownSeries);
   return {
     chart: {
-      type: "column"
+      //   animation: false,
+      type: "column",
+      //   options3d: {
+      //     enabled: true,
+      //     alpha: 30,
+      //     beta: 0
+      //   },
+      events: {
+        load: function(chart) {
+          setTimeout(function() {
+            chart.target.reflow();
+          });
+        },
+        drilldown: e => getEvent(e),
+        drillup: e => getEvent(e)
+      }
     },
     title: {
       text: ""
     },
     xAxis: {
-      type: "datetime"
+      title: {
+        text: "Date",
+        style: {
+          color: "black"
+        }
+      },
+      type: "datetime",
+      labels: {
+        // formatter: function() {
+        //   return Highcharts.dateFormat("", this.value);
+        // }
+      }
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: "Metric Tonnes"
+      },
+      stackLabels: {
+        enabled: true,
+        style: {
+          fontWeight: "bold",
+          color:
+            // theme
+            (Highcharts.defaultOptions.title.style &&
+              Highcharts.defaultOptions.title.style.color) ||
+            "gray"
+        }
+      }
     },
     series: seriesOptions,
     drilldown: {
@@ -130,7 +198,14 @@ const quantityChartOptions = (seriesOptions, drilldownSeries) => {
     },
     plotOptions: {
       column: {
-        stacking: "normal"
+        stacking: "normal",
+        cursor: "pointer",
+        // allowPointSelect: true,
+        // depth: 40,
+        dataLabels: {
+          enabled: false,
+          inside: true
+        }
       }
     }
   };

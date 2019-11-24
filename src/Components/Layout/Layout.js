@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import Sider from "../Sider/Sider";
 import { Layout, Icon } from "antd";
 import "./Layout.css";
+import "weather-icons/css/weather-icons.css";
 import "../../assets/css/dashboard.css";
 import SiderMenu from "../SiderMenu/SiderMenu";
 import Logo from "../../Logo.png";
@@ -56,7 +57,7 @@ class AppLayout extends React.Component {
               minHeight: 280
             }}
           >
-            { <Component /> }
+            {<Component />}
           </Content>
         </Layout>
       </Layout>

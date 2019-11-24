@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Button } from "antd";
+import { Tabs } from "antd";
 import Product from "./Product";
 import ModalContent from "../Shared/ModalContent";
 import ProductTable from "./Tables/ProductTable";

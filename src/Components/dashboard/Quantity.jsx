@@ -1,99 +1,122 @@
 import React, { Component } from "react";
-import { Card, DatePicker } from "antd";
-import moment from "moment";
+import { Card } from "antd";
+// import moment from "moment";
 import QuantityChart from "./QuantityChart";
 
-const { RangePicker } = DatePicker;
+// const { RangePicker } = DatePicker;
 
 var seriesOptions = [
   {
     name: "DAP",
     data: [
-      [Date.UTC(2019, 4, 1), 33],
-      [Date.UTC(2019, 5, 1), 18],
-      [Date.UTC(2019, 6, 1), 12],
-      [Date.UTC(2019, 7, 1), 77],
-      [Date.UTC(2019, 8, 1), 88],
-      [Date.UTC(2019, 9, 1), 30],
-      [Date.UTC(2019, 10, 1), 90],
-      [Date.UTC(2019, 11, 1), 9]
+      { x: Date.UTC(2019, 0, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 1, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 2, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 3, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 4, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 5, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 6, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 7, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 8, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 9, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 10, 1), y: 33, drilldown: "DAP" },
+      { x: Date.UTC(2019, 11, 1), y: 33, drilldown: "DAP" }
     ],
-    drilldown: "DAP",
-    color: "#F17E5D"
+    color: "#f38181"
   },
   {
     name: "MAP",
     drilldown: "MAP",
-    color: "#FCC468",
+    color: "#fce38a",
     data: [
-      [Date.UTC(2019, 4, 1), 12],
-      [Date.UTC(2019, 5, 1), 30],
-      [Date.UTC(2019, 6, 1), 11],
-      [Date.UTC(2019, 7, 1), 12],
-      [Date.UTC(2019, 8, 1), 90],
-      [Date.UTC(2019, 9, 1), 90],
-      [Date.UTC(2019, 10, 1), 90],
-      [Date.UTC(2019, 11, 1), 9]
+      { x: Date.UTC(2019, 0, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 1, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 2, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 3, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 4, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 5, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 6, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 7, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 8, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 9, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 10, 1), y: 33, drilldown: "MAP" },
+      { x: Date.UTC(2019, 11, 1), y: 33, drilldown: "MAP" }
     ]
   },
   {
     name: "TSP",
     drilldown: "TSP",
-    color: "#6BD098",
+    color: "#95e1d3",
     data: [
-      [Date.UTC(2019, 4, 1), 12],
-      [Date.UTC(2019, 5, 1), 10],
-      [Date.UTC(2019, 6, 1), 22],
-      [Date.UTC(2019, 7, 1), 20],
-      [Date.UTC(2019, 8, 1), 100],
-      [Date.UTC(2019, 9, 1), 100],
-      [Date.UTC(2019, 10, 1), 100],
-      [Date.UTC(2019, 11, 1), 120]
+      { x: Date.UTC(2019, 0, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 1, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 2, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 3, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 4, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 5, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 6, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 7, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 8, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 9, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 10, 1), y: 33, drilldown: "TSP" },
+      { x: Date.UTC(2019, 11, 1), y: 33, drilldown: "TSP" }
     ]
   },
   {
     name: "NPK",
     drilldown: "NPK",
-    color: "#81F0E5",
+    color: "#D6C1AB",
     data: [
-      [Date.UTC(2019, 4, 1), 12],
-      [Date.UTC(2019, 5, 1), 12],
-      [Date.UTC(2019, 6, 1), 12],
-      [Date.UTC(2019, 7, 1), 77],
-      [Date.UTC(2019, 8, 1), 88],
-      [Date.UTC(2019, 9, 1), 88],
-      [Date.UTC(2019, 10, 1), 88],
-      [Date.UTC(2019, 11, 1), 30]
+      { x: Date.UTC(2019, 0, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 1, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 2, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 3, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 4, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 5, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 6, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 7, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 8, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 9, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 10, 1), y: 33, drilldown: "NPK" },
+      { x: Date.UTC(2019, 11, 1), y: 33, drilldown: "NPK" }
     ]
   },
   {
     name: "ASP",
     drilldown: "ASP",
-    color: "#fb8e95",
+    color: "#D5E5A3",
     data: [
-      [Date.UTC(2019, 4, 1), 12],
-      [Date.UTC(2019, 5, 1), 12],
-      [Date.UTC(2019, 6, 1), 12],
-      [Date.UTC(2019, 7, 1), 77],
-      [Date.UTC(2019, 8, 1), 88],
-      [Date.UTC(2019, 9, 1), 30],
-      [Date.UTC(2019, 10, 1), 90],
-      [Date.UTC(2019, 11, 1), 9]
+      { x: Date.UTC(2019, 0, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 1, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 2, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 3, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 4, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 5, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 6, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 7, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 8, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 9, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 10, 1), y: 33, drilldown: "ASP" },
+      { x: Date.UTC(2019, 11, 1), y: 33, drilldown: "ASP" }
     ]
   },
   {
     name: "NPS",
     drilldown: "NPS",
-    color: "#b0e5ff",
+    color: "#B8D8D8",
     data: [
-      [Date.UTC(2019, 4, 1), 12],
-      [Date.UTC(2019, 5, 1), 12],
-      [Date.UTC(2019, 6, 1), 12],
-      [Date.UTC(2019, 7, 1), 77],
-      [Date.UTC(2019, 8, 1), 88],
-      [Date.UTC(2019, 9, 1), 30],
-      [Date.UTC(2019, 10, 1), 90],
-      [Date.UTC(2019, 11, 1), 9]
+      { x: Date.UTC(2019, 0, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 1, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 2, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 3, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 4, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 5, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 6, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 7, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 8, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 9, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 10, 1), y: 33, drilldown: "NPS" },
+      { x: Date.UTC(2019, 11, 1), y: 33, drilldown: "NPS" }
     ]
   }
 ];
@@ -103,72 +126,112 @@ var drilldownSeries = [
     name: "DAP",
     id: "DAP",
     data: [
-      ["DAPI", 23],
-      ["DAPII", 13]
+      { name: "DAP EURO", y: 23, drilldown: "DAP_" },
+      { name: "DAP USA", y: 13, drilldown: "DAP_" }
     ]
   },
   {
     name: "MAP",
     id: "MAP",
     data: [
-      ["MAPI", 23],
-      ["MAPII", 13]
+      { name: "MAP EURO", y: 23, drilldown: "MAP_" },
+      { name: "MAP USA", y: 13, drilldown: "MAP_" }
     ]
   },
   {
-    name: "TSP",
-    id: "TSP",
+    name: "DAP",
+    id: "DAP_",
     data: [
-      ["TSPI", 23],
-      ["TSPII", 13]
+      { name: "OCP/F/DAP/06", y: 23, drilldown: "DAP__" },
+      { name: "OCP/F/DAP/09", y: 23, drilldown: "DAP__" }
     ]
   },
   {
-    name: "NPK",
-    id: "NPK",
+    name: "MAP",
+    id: "MAP_",
     data: [
-      ["NPKI", 23],
-      ["NPKII", 13]
+      { name: "OCP/F/MAP/06", y: 23, drilldown: "MAP__" },
+      { name: "OCP/F/MAP/09", y: 23, drilldown: "MAP__" }
     ]
   },
   {
-    name: "ASP",
-    id: "ASP",
+    name: "DAP",
+    id: "DAP__",
     data: [
-      ["ASPI", 23],
-      ["ASPII", 13]
+      { name: "VESSEL1", y: 23 },
+      { name: "VESSEL2", y: 23 }
     ]
   },
   {
-    name: "NPS",
-    id: "NPS",
+    name: "MAP",
+    id: "MAP__",
     data: [
-      ["NSPI", 23],
-      ["NSPII", 13]
+      { name: "VESSEL1", y: 23 },
+      { name: "VESSEL2", y: 23 }
     ]
   }
 ];
 
-function onChange(dates, dateStrings) {
-  console.log("From: ", dates[0], ", to: ", dates[1]);
-  console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
-}
+// function onChange(dates, dateStrings) {
+//   console.log("From: ", dates[0], ", to: ", dates[1]);
+//   console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+// }
 
 class Quantity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seriesOptions
+      seriesOptions,
+      drilldownSeries
     };
+    this.level = 0;
+    this.chart = {};
+    this.getEvent = this.getEvent.bind(this);
+    this.getChart = this.getChart.bind(this);
   }
+
+  getEvent(e) {
+    if (e.type === "drilldown") {
+      this.level += 1;
+    } else if (e.type === "drillup" && this.level) {
+      this.level -= 1;
+    }
+    if (this.level === seriesOptions.length) {
+      this.level = 1;
+    }
+    if (this.level === 1) {
+      this.chart.xAxis[0].update({ type: "category" });
+      this.chart.xAxis[0].setTitle({
+        text: "Product Category"
+      });
+    } else if (this.level === 2) {
+      this.chart.xAxis[0].setTitle({
+        text: "Product Name"
+      });
+    } else if (this.level === 3) {
+      this.chart.xAxis[0].setTitle({
+        text: "Vessel Name"
+      });
+    } else if (this.level === 0) {
+      this.chart.xAxis[0].update({ type: "datetime" });
+      this.chart.xAxis[0].setTitle({ text: "Date" });
+    }
+  }
+
+  getChart(chart) {
+    this.chart = chart;
+  }
+
   render() {
     return (
       <Card bordered={false}>
         <p className="charts-title">
           Quantity
-          <RangePicker
+          {/* <RangePicker
             size="small"
             className="date-picker"
+            allowClear={true}
+            autoFocus={true}
             ranges={{
               Today: [moment(), moment()],
               "This Week": [moment().startOf("week"), moment().endOf("week")],
@@ -179,13 +242,15 @@ class Quantity extends Component {
               "This Year": [moment().startOf("year"), moment().endOf("year")]
             }}
             onChange={onChange}
-          />
+          /> */}
         </p>
 
         <br />
         <QuantityChart
           seriesOptions={this.state.seriesOptions}
-          drilldownSeries={drilldownSeries}
+          drilldownSeries={this.state.drilldownSeries}
+          getEvent={this.getEvent}
+          getChart={this.getChart}
         />
       </Card>
     );

@@ -4,9 +4,11 @@ import moment from "moment";
 import Axios from "axios";
 import QuantityChart from "./QuantityChart";
 import { api } from "../../actions/config";
+import { getDefaultWatermarks } from "istanbul-lib-report";
 
 // const { RangePicker } = DatePicker;
 
+/*
 var seriesOptions = [
   {
     name: "DAP",
@@ -173,6 +175,7 @@ var drilldownSeries = [
     ]
   }
 ];
+*/
 
 // function onChange(dates, dateStrings) {
 //   console.log("From: ", dates[0], ", to: ", dates[1]);
@@ -183,9 +186,8 @@ class Quantity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seriesOptions,
-      drilldownSeries,
-      data: []
+      seriesOptions: [],
+      drilldownSeries: []
     };
     this.level = 0;
     this.chart = {};
@@ -200,7 +202,7 @@ class Quantity extends Component {
     } else if (e.type === "drillup" && this.level) {
       this.level -= 1;
     }
-    if (this.level === seriesOptions.length) {
+    if (this.level === this.state.seriesOptions.length) {
       this.level = 1;
     }
     if (this.level === 1) {
@@ -226,11 +228,18 @@ class Quantity extends Component {
     this.chart = chart;
   }
 
+  getDate(x) {
+    let m = moment(x, "MM-DD-YYYY", "Africa/Casablanca");
+    let year = m.get("year");
+    let month = m.get("month");
+    let date = m.get("date");
+    return Date.UTC(year, month, date);
+  }
+
   onFetchData() {
     Axios.get(`${api}quantity/statistic`)
       .then(response => {
         let res = response.data;
-        console.log(res);
         let seriesOptions = [];
         let drilldownSeries = [];
         let _drilldownSeries = [];
@@ -251,7 +260,11 @@ class Quantity extends Component {
                 x = k;
               }
             });
-            data.push({ x: x, y: y, drilldown: `${key}:${x}` });
+            data.push({
+              x: this.getDate(x),
+              y: y,
+              drilldown: `${key}:${x}`
+            });
             let __data = [];
             let ___data = [];
             item[x].forEach(elmnt => {
@@ -301,7 +314,6 @@ class Quantity extends Component {
               data: _data
             });
           });
-          console.log(___drilldownSeries);
           seriesOptions.push({ name: key, data: data });
           drilldownSeries = [
             ..._drilldownSeries,
@@ -309,8 +321,7 @@ class Quantity extends Component {
             ...___drilldownSeries
           ];
         });
-        console.log("seriesOptions: ", seriesOptions);
-        console.log("drilldownSeries: ", drilldownSeries);
+        this.setState({ seriesOptions, drilldownSeries });
       })
       .catch(err => console.log(err));
   }
@@ -320,7 +331,6 @@ class Quantity extends Component {
   }
 
   render() {
-    console.log(this.state.data);
     return (
       <Card bordered={false}>
         <p className="charts-title">

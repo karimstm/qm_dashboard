@@ -19,6 +19,7 @@ class QuantityChart extends Component {
 
   render() {
     const { seriesOptions, drilldownSeries, getEvent } = this.props;
+    console.log("Props: ", seriesOptions, drilldownSeries);
     return (
       <HighchartsReact
         highcharts={Highcharts}

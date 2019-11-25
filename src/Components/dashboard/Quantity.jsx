@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Card } from "antd";
-// import moment from "moment";
+import moment from "moment";
+import Axios from "axios";
 import QuantityChart from "./QuantityChart";
+import { api } from "../../actions/config";
+import { getDefaultWatermarks } from "istanbul-lib-report";
 
 // const { RangePicker } = DatePicker;
 
@@ -182,12 +185,14 @@ class Quantity extends Component {
     super(props);
     this.state = {
       seriesOptions,
-      drilldownSeries
+      drilldownSeries,
+      data: []
     };
     this.level = 0;
     this.chart = {};
     this.getEvent = this.getEvent.bind(this);
     this.getChart = this.getChart.bind(this);
+    this.onFetchData = this.onFetchData.bind(this);
   }
 
   getEvent(e) {
@@ -222,7 +227,85 @@ class Quantity extends Component {
     this.chart = chart;
   }
 
+  onFetchData() {
+    Axios.get(`${api}quantity/statistic`)
+      .then(response => {
+        let res = response.data;
+        console.log(res);
+        let seriesOptions = [];
+        let drilldownSeries = [];
+        let _drilldownSeries = [];
+        let __drilldownSeries = [];
+        let ___drilldownSeries = [];
+        Object.keys(res).forEach(key => {
+          let data = [];
+          let y = 0;
+          let x = 0;
+          let name = "";
+          let product_name = "";
+          res[key].forEach(item => {
+            let _data = [];
+            Object.keys(item).forEach(k => {
+              if (k === "Quantity") {
+                y = item[k];
+              } else {
+                x = k;
+              }
+            });
+            data.push({ x: x, y: y, drilldown: `${key}:${x}` });
+            let __data = [];
+            item[x].forEach(elmnt => {
+              Object.keys(elmnt).forEach(k => {
+                if (k === "Quantity") {
+                  y = elmnt[k];
+                } else {
+                  name = k;
+                }
+              });
+              _data.push({ name: name, y: y, drilldown: `_${key}:${x}` });
+              let __data = [];
+              elmnt[name].forEach(product => {
+                Object.keys(product).forEach(k => {
+                  if (k === "Quantity") {
+                    y = product[k];
+                  } else {
+                    product_name = k;
+                  }
+                });
+                __data.push({
+                  name: product_name,
+                  y: y,
+                  drilldown: `__${key}:${x}`
+                });
+                console.log("Product: ", product);
+              });
+            });
+            __drilldownSeries.push({
+              name: key,
+              id: `_${key}:${x}`,
+              data: __data
+            });
+            _drilldownSeries.push({
+              name: key,
+              id: `${key}:${x}`,
+              data: _data
+            });
+          });
+          seriesOptions.push({ name: key, data: data });
+          drilldownSeries = [..._drilldownSeries, ...__drilldownSeries];
+        });
+        console.log("seriesOptions: ", seriesOptions);
+        console.log("drilldownSeries: ", drilldownSeries);
+      })
+      .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    this.onFetchData();
+  }
+
   render() {
+    console.log(this.state.data);
     return (
       <Card bordered={false}>
         <p className="charts-title">

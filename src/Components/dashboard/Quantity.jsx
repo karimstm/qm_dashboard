@@ -4,7 +4,6 @@ import moment from "moment";
 import Axios from "axios";
 import QuantityChart from "./QuantityChart";
 import { api } from "../../actions/config";
-import { getDefaultWatermarks } from "istanbul-lib-report";
 
 // const { RangePicker } = DatePicker;
 
@@ -254,6 +253,7 @@ class Quantity extends Component {
             });
             data.push({ x: x, y: y, drilldown: `${key}:${x}` });
             let __data = [];
+            let ___data = [];
             item[x].forEach(elmnt => {
               Object.keys(elmnt).forEach(k => {
                 if (k === "Quantity") {
@@ -263,7 +263,6 @@ class Quantity extends Component {
                 }
               });
               _data.push({ name: name, y: y, drilldown: `_${key}:${x}` });
-              let __data = [];
               elmnt[name].forEach(product => {
                 Object.keys(product).forEach(k => {
                   if (k === "Quantity") {
@@ -277,8 +276,19 @@ class Quantity extends Component {
                   y: y,
                   drilldown: `__${key}:${x}`
                 });
-                console.log("Product: ", product);
+                let vessel = product[product_name];
+                Object.keys(vessel).forEach(k => {
+                  ___data.push({
+                    name: k,
+                    y: vessel[k]
+                  });
+                });
               });
+            });
+            ___drilldownSeries.push({
+              name: key,
+              id: `__${key}:${x}`,
+              data: ___data
             });
             __drilldownSeries.push({
               name: key,
@@ -291,8 +301,13 @@ class Quantity extends Component {
               data: _data
             });
           });
+          console.log(___drilldownSeries);
           seriesOptions.push({ name: key, data: data });
-          drilldownSeries = [..._drilldownSeries, ...__drilldownSeries];
+          drilldownSeries = [
+            ..._drilldownSeries,
+            ...__drilldownSeries,
+            ...___drilldownSeries
+          ];
         });
         console.log("seriesOptions: ", seriesOptions);
         console.log("drilldownSeries: ", drilldownSeries);

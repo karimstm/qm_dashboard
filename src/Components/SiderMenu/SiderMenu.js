@@ -78,7 +78,4 @@ class SiderMenu extends Component {
   }
 }
 
-export default connect(
-  null,
-  { logout }
-)(SiderMenu);
+export default connect(null, { logout })(SiderMenu);

@@ -32,7 +32,7 @@ class Siders extends Component {
         </div>
         <div id="side-menu">
           <Link to="/">
-          <Tooltip placement="right" title="Home">
+            <Tooltip placement="right" title="Home">
               <div className="item">
                 <Icon type="dashboard" />
               </div>
@@ -66,6 +66,15 @@ class Siders extends Component {
             </Tooltip>
           </Link>
         </div>
+        <div id="side-menu">
+          <Link to="/events">
+            <Tooltip placement="right" title="Events List">
+              <div className="item">
+                <Icon type="exclamation-circle" />
+              </div>
+            </Tooltip>
+          </Link>
+        </div>
         <div id="side-logout">
           <Icon type="logout" onClick={this.props.logout} id="s-logout" />
         </div>
@@ -74,7 +83,4 @@ class Siders extends Component {
   }
 }
 
-export default connect(
-  null,
-  { logout }
-)(Siders);
+export default connect(null, { logout })(Siders);

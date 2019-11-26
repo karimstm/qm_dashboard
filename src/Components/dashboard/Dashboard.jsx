@@ -6,10 +6,11 @@ import Quantity from "./Quantity";
 
 class Dashboard extends Component {
   render() {
+    console.log(this.props);
     return (
       <div>
         <Row gutter={16}>
-          <Indicators />
+          <Indicators {...this.props} />
         </Row>
         <Row gutter={16}>
           <Stoppage />

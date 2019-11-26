@@ -3,18 +3,20 @@ import { Col, Card, Icon, Menu, Dropdown } from "antd";
 
 import PieStoppageChart from "./PieStoppageChart";
 import AreaStoppageChart from "./AreaStoppageChart";
-// import moment from "moment";
+import moment from "moment";
+import Axios from "axios";
+import { api } from "../../actions/config";
 
-var pieData = [
-  {
-    name: "Incident Quality",
-    y: 56,
-    drilldown: "Incident Quality",
-    color: "#EF8157"
-  },
-  { name: "Halt", y: 77, drilldown: "Halt", color: "#FBC658" },
-  { name: "Weather", y: 12, drilldown: "Weather", color: "#51CBCE" }
-];
+// var pieData = [
+//   {
+//     name: "Incident Quality",
+//     y: 56,
+//     drilldown: "Incident Quality",
+//     color: "#EF8157"
+//   },
+//   { name: "Halt", y: 77, drilldown: "Halt", color: "#FBC658" },
+//   { name: "Weather", y: 12, drilldown: "Weather", color: "#51CBCE" }
+// ];
 
 // var summarydata = {
 //   halt: {
@@ -37,18 +39,18 @@ var pieData = [
 //   }
 // };
 
-// const getColor = key => {
-//   switch (key) {
-//     case "incident":
-//       return "#FBC658";
-//     case "halt":
-//       return "#EF8157";
-//     case "weather":
-//       return "#51CBCE";
-//     default:
-//       return "#51CBCE";
-//   }
-// };
+const getColor = key => {
+  switch (key) {
+    case "incident":
+      return "#FBC658";
+    case "halt":
+      return "#EF8157";
+    case "weather":
+      return "#51CBCE";
+    default:
+      return "#51CBCE";
+  }
+};
 
 // var pieData = [];
 // Object.keys(summarydata).forEach(key => {
@@ -61,64 +63,48 @@ var pieData = [
 //   });
 // });
 
-var PieSeries = [
-  {
-    name: "stoppage",
-    data: pieData
-  }
-];
+const getData = data => {
+  let ret = [];
+  let array = Object.keys(data);
+  array.shift();
+  array.forEach(key => {
+    let seconds = parseFloat(data[key]);
+    let hours = moment.duration({ seconds: seconds }).asHours();
+    ret.push([key, hours]);
+  });
+  return ret;
+};
 
-// const getData = data => {
-//   let ret = [];
-//   let array = Object.keys(data);
-//   array.shift();
-//   array.forEach(key => {
-//     let minutes = parseFloat(data[key]);
-//     let hours = moment.duration({ minutes: minutes }).asHours();
-//     ret.push([key, hours]);
-//   });
-//   return ret;
-// };
-
-// var drilldownSeries = [];
-// Object.keys(summarydata).forEach(key => {
-//   drilldownSeries.push({
-//     name: key,
-//     id: key,
-//     data: getData(summarydata[key])
-//   });
-// });
-
-var drilldownSeries = [
-  {
-    name: "Halt",
-    id: "Halt",
-    data: [
-      ["OCP Stop", 23],
-      ["Wait for Loading", 12],
-      ["Intermediate Draft survey", 42]
-    ]
-  },
-  {
-    name: "Incident Quality",
-    id: "Incident Quality",
-    data: [
-      ["Product Colour", 2],
-      ["Precense of Clods", 10],
-      ["High product Temperature", 24],
-      ["Contamination by other product", 20]
-    ]
-  },
-  {
-    name: "Weather",
-    id: "Weather",
-    data: [
-      ["High Dust Rate", 2],
-      ["High Humidity", 2],
-      ["Rain/Bad Weather", 2]
-    ]
-  }
-];
+// var drilldownSeries = [
+//   {
+//     name: "Halt",
+//     id: "Halt",
+//     data: [
+//       ["OCP Stop", 23],
+//       ["Wait for Loading", 12],
+//       ["Intermediate Draft survey", 42]
+//     ]
+//   },
+//   {
+//     name: "Incident Quality",
+//     id: "Incident Quality",
+//     data: [
+//       ["Product Colour", 2],
+//       ["Precense of Clods", 10],
+//       ["High product Temperature", 24],
+//       ["Contamination by other product", 20]
+//     ]
+//   },
+//   {
+//     name: "Weather",
+//     id: "Weather",
+//     data: [
+//       ["High Dust Rate", 2],
+//       ["High Humidity", 2],
+//       ["Rain/Bad Weather", 2]
+//     ]
+//   }
+// ];
 
 var AreaSeries = [
   {
@@ -257,6 +243,8 @@ class Stoppage extends Component {
     super(props);
     this.state = {
       seriesOptions: AreaSeries,
+      pieSeries: [],
+      drilldownSeries: [],
       rangeSelected: "Week"
     };
     this.chart = {};
@@ -265,6 +253,68 @@ class Stoppage extends Component {
     this.getChart = this.getChart.bind(this);
     this.updateChart = this.updateChart.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.onFetchData = this.onFetchData.bind(this);
+    this.getRange = this.getRange.bind(this);
+  }
+
+  getRange() {
+    let range = this.state.rangeSelected;
+    if (range === "Week") {
+      return moment()
+        .subtract(7, "days")
+        .format("YYYY-MM-DD");
+    } else if (range === "Month") {
+      return moment()
+        .subtract(1, "months")
+        .format("YYYY-MM-DD");
+    } else if (range === "Quarter") {
+      return moment()
+        .subtract(3, "months")
+        .format("YYYY-MM-DD");
+    } else if (range === "Year") {
+      return moment()
+        .subtract(12, "months")
+        .format("YYYY-MM-DD");
+    }
+  }
+
+  onFetchData() {
+    let request = `${api}incidentpiechart/?start_date=${this.getRange()}&end_date=${moment().format(
+      "YYYY-MM-DD"
+    )}`;
+    Axios.get(request)
+      .then(response => {
+        let res = response.data;
+        let pieData = [];
+        let drilldownSeries = [];
+        let pieSeries = [];
+        Object.keys(res).forEach(key => {
+          let seconds = parseFloat(res[key].total_seconds);
+          pieData.push({
+            name: key,
+            y: moment.duration({ seconds: seconds }).asHours(),
+            drilldown: key,
+            color: getColor(key)
+          });
+        });
+        pieSeries.push({
+          name: "stoppage",
+          data: pieData
+        });
+        Object.keys(res).forEach(key => {
+          drilldownSeries.push({
+            name: key,
+            id: key,
+            data: getData(res[key])
+          });
+        });
+        this.setState({ pieSeries, drilldownSeries });
+      })
+      .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    this.onFetchData();
   }
 
   updateChart(series) {
@@ -325,7 +375,9 @@ class Stoppage extends Component {
   }
 
   handleSelect(item) {
-    this.setState({ rangeSelected: item.props.children });
+    this.setState({ rangeSelected: item.props.children }, () =>
+      this.onFetchData()
+    );
   }
 
   render() {
@@ -360,8 +412,8 @@ class Stoppage extends Component {
               </Dropdown>
             </div>
             <PieStoppageChart
-              seriesOptions={PieSeries}
-              drilldownSeries={drilldownSeries}
+              seriesOptions={this.state.pieSeries}
+              drilldownSeries={this.state.drilldownSeries}
               getEvent={this.getEvent}
             />
           </Card>

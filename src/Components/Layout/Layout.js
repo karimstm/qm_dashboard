@@ -33,6 +33,7 @@ class AppLayout extends React.Component {
 
   render() {
     const { component: Component } = this.props;
+    console.log(this.props);
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider with={this.state.collapsed} />
@@ -57,7 +58,7 @@ class AppLayout extends React.Component {
               minHeight: 280
             }}
           >
-            {<Component />}
+            {<Component {...this.props} />}
           </Content>
         </Layout>
       </Layout>

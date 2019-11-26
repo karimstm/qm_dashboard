@@ -13,13 +13,13 @@ class QuantityChart extends Component {
     super(props);
     this.afterChartCreated = this.afterChartCreated.bind(this);
   }
+
   afterChartCreated(chart) {
     this.props.getChart(chart);
   }
 
   render() {
     const { seriesOptions, drilldownSeries, getEvent } = this.props;
-    console.log("Props: ", seriesOptions, drilldownSeries);
     return (
       <HighchartsReact
         highcharts={Highcharts}

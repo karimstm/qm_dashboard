@@ -4,7 +4,6 @@ import moment from "moment";
 import Axios from "axios";
 import QuantityChart from "./QuantityChart";
 import { api } from "../../actions/config";
-import { getDefaultWatermarks } from "istanbul-lib-report";
 
 // const { RangePicker } = DatePicker;
 
@@ -202,21 +201,21 @@ class Quantity extends Component {
     } else if (e.type === "drillup" && this.level) {
       this.level -= 1;
     }
-    if (this.level === this.state.seriesOptions.length) {
+    if (e.points && this.level === e.points.length) {
       this.level = 1;
     }
     if (this.level === 1) {
       this.chart.xAxis[0].update({ type: "category" });
       this.chart.xAxis[0].setTitle({
-        text: "Product Category"
+        text: "Product's Category"
       });
     } else if (this.level === 2) {
       this.chart.xAxis[0].setTitle({
-        text: "Product Name"
+        text: "Product's Name"
       });
     } else if (this.level === 3) {
       this.chart.xAxis[0].setTitle({
-        text: "Vessel Name"
+        text: "Vessel's Name"
       });
     } else if (this.level === 0) {
       this.chart.xAxis[0].update({ type: "datetime" });
@@ -265,8 +264,6 @@ class Quantity extends Component {
               y: y,
               drilldown: `${key}:${x}`
             });
-            let __data = [];
-            let ___data = [];
             item[x].forEach(elmnt => {
               Object.keys(elmnt).forEach(k => {
                 if (k === "Quantity") {
@@ -275,8 +272,14 @@ class Quantity extends Component {
                   name = k;
                 }
               });
-              _data.push({ name: name, y: y, drilldown: `_${key}:${x}` });
-              elmnt[name].forEach(product => {
+              _data.push({
+                name: name,
+                y: y,
+                drilldown: `_${key}:${name}:${x}`
+              });
+              elmnt[name].forEach((product, index) => {
+                let __data = [];
+                let ___data = [];
                 Object.keys(product).forEach(k => {
                   if (k === "Quantity") {
                     y = product[k];
@@ -287,7 +290,7 @@ class Quantity extends Component {
                 __data.push({
                   name: product_name,
                   y: y,
-                  drilldown: `__${key}:${x}`
+                  drilldown: `__${key}:${name}:${product_name}:${x}`
                 });
                 let vessel = product[product_name];
                 Object.keys(vessel).forEach(k => {
@@ -296,18 +299,28 @@ class Quantity extends Component {
                     y: vessel[k]
                   });
                 });
+                ___drilldownSeries.push({
+                  name: key,
+                  id: `__${key}:${name}:${product_name}:${x}`,
+                  data: ___data
+                });
+                __drilldownSeries.push({
+                  name: key,
+                  id: `_${key}:${name}:${x}`,
+                  data: __data
+                });
               });
             });
-            ___drilldownSeries.push({
-              name: key,
-              id: `__${key}:${x}`,
-              data: ___data
-            });
-            __drilldownSeries.push({
-              name: key,
-              id: `_${key}:${x}`,
-              data: __data
-            });
+            // ___drilldownSeries.push({
+            //   name: key,
+            //   id: `__${key}:${x}`,
+            //   data: ___data
+            // });
+            // __drilldownSeries.push({
+            //   name: key,
+            //   id: `_${key}:${x}`,
+            //   data: __data
+            // });
             _drilldownSeries.push({
               name: key,
               id: `${key}:${x}`,

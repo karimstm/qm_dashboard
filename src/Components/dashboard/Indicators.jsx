@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { Col, Card, Icon, Tag } from "antd";
-import { api_key, api_weather } from "../../actions/config";
+import { api_key, api_weather, api } from "../../actions/config";
 import Axios from "axios";
 import moment from "moment";
+// import EventsListPage from "../pages/EventsListPage";
 
 const { CheckableTag } = Tag;
 
@@ -65,11 +67,17 @@ export class Indicators extends Component {
       idIcon: undefined,
       icon: undefined,
       date: undefined,
-      checked: true
+      checked: true,
+      active: false,
+      onhold: undefined,
+      ongoing: undefined
     };
     this.getWeather = this.getWeather.bind(this);
     this.getDate = this.getDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleOngoing = this.handleOngoing.bind(this);
+    this.getInspections = this.getInspections.bind(this);
   }
 
   handleChange = (key, checked) => {
@@ -145,9 +153,31 @@ export class Indicators extends Component {
     );
   }
 
+  getInspections() {
+    Axios.get(`${api}inpection/events/counts`)
+      .then(response => {
+        let data = response.data;
+        let ongoing = data.INPROGRESS;
+        let onhold = data.ONHOLD;
+        this.setState({ onhold, ongoing, active: false });
+      })
+      .catch(err => console.log(err));
+  }
+
+  handleUpdate() {
+    this.setState({ active: true }, () =>
+      setTimeout(() => this.getInspections(), 1000)
+    );
+  }
+
+  handleOngoing() {
+    this.props.history.push("/events", { type: "INPROGRESS" });
+  }
+
   componentDidMount() {
     this.getWeather();
     this.getDate();
+    this.getInspections();
   }
 
   componentWillUnmount() {
@@ -173,16 +203,25 @@ export class Indicators extends Component {
               </span>
             }
             actions={[
-              <span className="indicators-action">
-                <Icon type="sync" />
+              <span
+                className="indicators-action"
+                onClick={() => this.handleUpdate()}
+              >
+                <Icon
+                  className={this.state.active ? "active" : null}
+                  type="sync"
+                />
                 Update Now
               </span>
             ]}
             bordered={false}
           >
             <div className="indicators-content inspections">
-              <div className="indicators-content ongoing">
-                {11}
+              <div
+                className="indicators-content ongoing"
+                onClick={this.handleOngoing}
+              >
+                {this.state.ongoing}
                 <span
                   className="indicators-subtitle"
                   style={{ color: "#52c41a" }}
@@ -197,7 +236,7 @@ export class Indicators extends Component {
                 </span>
               </div>
               <div className="indicators-content onhold">
-                {2}
+                {this.state.onhold}
                 <span
                   className="indicators-subtitle"
                   style={{ color: "#ffad87" }}
@@ -252,6 +291,7 @@ export class Indicators extends Component {
                   {cities.map((city, index) => {
                     return (
                       <CheckableTag
+                        className="checkable-tag"
                         key={city.key}
                         checked={
                           this.state.weatherKey === city.key

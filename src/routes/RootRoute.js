@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import Data from "../Components/pages/Data";
 import UserApprovalPage from "../Components/pages/UserApprovalPage";
 import UsersListPage from "../Components/pages/UsersListPage";
+import EventsListPage from "../Components/pages/EventsListPage";
 
 class RootRoute extends Component {
   render() {
@@ -20,19 +21,10 @@ class RootRoute extends Component {
           exact
           render={props => <Auth {...props} component={Login} />}
         />
-        <Route
-          path="/data"
-          exact
-          component={Data} />
-        <Route
-          path="/users"
-          exact
-          component={UsersListPage} />
-        <Route
-          path="/users/approval"
-          exact
-          component={ UserApprovalPage } />
-          
+        <Route path="/data" exact component={Data} />
+        <Route path="/users" exact component={UsersListPage} />
+        <Route path="/users/approval" exact component={UserApprovalPage} />
+        <Route path="/events" exact component={EventsListPage} />
         <Route path="*" component={NotFound} />
       </Switch>
     );

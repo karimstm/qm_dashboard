@@ -96,6 +96,17 @@ p.charts-subtitle {
   text-transform: capitalize;
 }
 
+.event-refresh {
+  margin-bottom: 10px;
+}
+
+i.anticon.anticon-reload {
+  /* font-size: 20px; */
+  position: relative;
+  bottom: 3px;
+  left: 0px;
+}
+
 i.anticon.anticon-setting {
   font-size: 20px;
   position: absolute;
@@ -112,6 +123,15 @@ i.anticon.anticon-setting:hover {
   -moz-animation: spin 4s linear infinite;
   animation: spin 4s linear infinite;
 }
+
+i.anticon.anticon-sync.active {
+  rotate: "120deg";
+  transition: all 300ms ease-in-out;
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+}
+
 @-moz-keyframes spin {
   100% {
     -moz-transform: rotate(360deg);
@@ -242,4 +262,8 @@ i.anticon.anticon-sync {
 
 .weather-icon {
   padding: 10px;
+}
+
+.checkable-tag:hover {
+  cursor: pointer;
 }

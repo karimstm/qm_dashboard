@@ -6,9 +6,15 @@ import Dashboard from "../dashboard/Dashboard";
 
 class Home extends Component {
   render() {
+    console.log(this.props);
+
     if (!this.props.isAuth) return <Redirect to="/login" />;
     return (
-      <AppLayout background="rgba(238, 238, 238, 0.35)" component={Dashboard} />
+      <AppLayout
+        {...this.props}
+        background="rgba(238, 238, 238, 0.35)"
+        component={Dashboard}
+      />
     );
   }
 }

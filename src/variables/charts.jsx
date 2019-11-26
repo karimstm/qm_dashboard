@@ -2,11 +2,11 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
   return {
     chart: {
       type: "pie",
-      //   options3d: {
-      //     enabled: true,
-      //     alpha: 45,
-      //     beta: 0
-      //   },
+      options3d: {
+        enabled: true,
+        alpha: 45,
+        beta: 0
+      },
       //   margin: [0, 0, 0, 0],
       events: {
         load: function(chart) {
@@ -33,7 +33,7 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
       pie: {
         allowPointSelect: true,
         cursor: "pointer",
-        // depth: 35,
+        depth: 35,
         dataLabels: {
           enabled: false
         },
@@ -137,17 +137,15 @@ const quantityChartOptions = (
   getEvent,
   Highcharts
 ) => {
-  //   console.log(seriesOptions);
-  //   console.log(drilldownSeries);
   return {
     chart: {
       //   animation: false,
       type: "column",
-      //   options3d: {
-      //     enabled: true,
-      //     alpha: 30,
-      //     beta: 0
-      //   },
+      // options3d: {
+      //   enabled: true,
+      //   alpha: 30,
+      //   beta: 0
+      // },
       events: {
         load: function(chart) {
           setTimeout(function() {
@@ -197,6 +195,13 @@ const quantityChartOptions = (
       series: drilldownSeries
     },
     plotOptions: {
+      // series: {
+      //   point: {
+      //     events: {
+      //       click: e => getClickEvent(e)
+      //     }
+      //   }
+      // },
       column: {
         stacking: "normal",
         cursor: "pointer",

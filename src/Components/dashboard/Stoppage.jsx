@@ -334,7 +334,8 @@ class Stoppage extends Component {
   }
 
   getEvent(e) {
-    if (e.type === "drilldown" && e.seriesOptions.name === "Halt") {
+    console.log(e.seriesOptions.name);
+    if (e.type === "drilldown" && e.seriesOptions.name === "halt") {
       //   this.setState({
       //     seriesOptions: AreaHaltSeries
       //   });
@@ -346,12 +347,9 @@ class Stoppage extends Component {
       //   });
       //   this.chart.redraw();
       this.updateChart(AreaHaltSeries);
-    } else if (
-      e.type === "drilldown" &&
-      e.seriesOptions.name === "Incident Quality"
-    ) {
+    } else if (e.type === "drilldown" && e.seriesOptions.name === "incident") {
       this.updateChart(AreaIncidentSeries);
-    } else if (e.type === "drilldown" && e.seriesOptions.name === "Weather") {
+    } else if (e.type === "drilldown" && e.seriesOptions.name === "weather") {
       this.updateChart(AreaWeatherSeries);
     } else if (e.type === "drillup") {
       //   setTimeout(() => {

@@ -66,29 +66,65 @@ export class TableEvent extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      tabLoading: false,
       datasource: [],
-      type: "ONHOLD"
+      type: "ONHOLD",
+      related: "",
+      resuming_hour: "null"
     };
     this.onFetchData = this.onFetchData.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
-    if (
-      this.props.history.location.state &&
-      this.props.history.location.state.type === "INPROGRESS"
+    const state = this.props.history.location.state;
+    if (state && state.type === "INPROGRESS") {
+      console.log("ComponentDidMount INPROGRESS");
+      this.setState(
+        { tabLoading: true, type: "INPROGRESS", resuming_hour: "" },
+        () => this.onFetchData()
+      );
+    } else if (
+      state &&
+      state.type === "ONHOLD" &&
+      state.related === "PRODUCT"
     ) {
-      this.setState({ type: "INPROGRESS" }, this.onFetchData());
+      console.log("ComponentDidMount ONHOLD PRODUCT");
+      this.setState(
+        { tabLoading: true, type: "ONHOLD", related: "PRODUCT" },
+        () => this.onFetchData()
+      );
+    } else if (state && state.type === "ONHOLD" && state.related === "HALT") {
+      console.log("ComponentDidMount ONHOLD HALT");
+      this.setState({ tabLoading: true, type: "ONHOLD", related: "HALT" }, () =>
+        this.onFetchData()
+      );
+    } else if (
+      state &&
+      state.type === "ONHOLD" &&
+      state.related === "WEATHER"
+    ) {
+      console.log("ComponentDidMount ONHOLD WEATHER");
+      this.setState(
+        { tabLoading: true, type: "ONHOLD", related: "WEATHER" },
+        () => this.onFetchData()
+      );
     } else {
-      this.setState({ type: "ONHOLD" }, this.onFetchData());
+      console.log("ComponentDidMount ONHOLD ALL");
+      this.setState({ tabLoading: true, type: "ONHOLD" }, () =>
+        this.onFetchData()
+      );
     }
   }
 
   handleClick() {
-    this.setState({ isLoading: true }, () => this.onFetchData());
+    this.setState({ tabLoading: true, isLoading: true }, () =>
+      this.onFetchData()
+    );
   }
 
   onFetchData() {
-    const requestURL = `${api}incidentdetails/?inspection_ref__inspection_status=${this.state.type}&ordering=-stopping_hour`;
+    console.log("Fetch: ", this.state.type);
+    const requestURL = `${api}incidentdetails/?resuming_hour=${this.state.resuming_hour}&inspection_ref__inspection_status=${this.state.type}&related=${this.state.related}&ordering=-stopping_hour`;
     console.log(requestURL);
     let dataSource = [];
     axios
@@ -116,6 +152,7 @@ export class TableEvent extends Component {
         }
         this.setState({
           isLoading: false,
+          tabLoading: false,
           dataSource
         });
       })
@@ -127,8 +164,19 @@ export class TableEvent extends Component {
     return (
       <React.Fragment>
         <Button
+          className="event-back"
+          type="primary"
+          ghost
+          size="default"
+          icon="arrow-left"
+          onClick={() => this.props.history.goBack()}
+        >
+          Go Back
+        </Button>
+        <Button
           className="event-refresh"
-          type="default"
+          type="primary"
+          ghost
           size="default"
           icon="reload"
           loading={this.state.isLoading}
@@ -136,7 +184,11 @@ export class TableEvent extends Component {
         >
           Refresh
         </Button>
-        <Table dataSource={this.state.dataSource} columns={columns} />
+        <Table
+          dataSource={this.state.dataSource}
+          columns={columns}
+          loading={this.state.tabLoading}
+        />
       </React.Fragment>
     );
   }

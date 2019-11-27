@@ -43,6 +43,10 @@ div.indicators-card.events {
   min-height: 146px;
 }
 
+div.indicators-card.events .ant-card-body {
+  text-align: center;
+}
+
 div.weather-head {
   display: flex;
   flex-direction: row;
@@ -97,10 +101,17 @@ p.charts-subtitle {
 }
 
 .event-refresh {
-  margin-bottom: 10px;
+  margin: 0 0 10px 10px;
 }
 
 i.anticon.anticon-reload {
+  /* font-size: 20px; */
+  position: relative;
+  bottom: 3px;
+  left: 0px;
+}
+
+i.anticon.anticon-arrow-left {
   /* font-size: 20px; */
   position: relative;
   bottom: 3px;
@@ -182,12 +193,19 @@ i.anticon.anticon-sync.active {
   margin: 0 5px 0 5px;
 }
 
-.ongoing {
-  float: left;
+div.indicators-content.ongoing {
+  cursor: pointer;
 }
 
-.onhold {
-  float: right;
+div.indicators-content.onhold {
+  cursor: pointer;
+}
+
+span.indicators-content.all,
+span.indicators-content.incident,
+span.indicators-content.halt,
+span.indicators-content.weather {
+  cursor: pointer;
 }
 
 .inspections-icon {

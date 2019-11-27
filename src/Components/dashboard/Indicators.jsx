@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { Col, Card, Icon, Tag } from "antd";
 import { api_key, api_weather, api } from "../../actions/config";
 import Axios from "axios";
@@ -28,13 +27,6 @@ const tabListEvents = [
     tab: "Weather"
   }
 ];
-
-const contentListEvents = {
-  all: <p className="indicators-content">{8}</p>,
-  incident: <p className="indicators-content">{0}</p>,
-  halt: <p className="indicators-content">{2}</p>,
-  weather: <p className="indicators-content">{5}</p>
-};
 
 const weatherIcons = {
   Thunderstorm: "wi-thunderstorm",
@@ -69,15 +61,20 @@ export class Indicators extends Component {
       date: undefined,
       checked: true,
       active: false,
-      onhold: undefined,
-      ongoing: undefined
+      onhold: null,
+      ongoing: null,
+      all: null,
+      incident: null,
+      halt: null,
+      weather: null
     };
     this.getWeather = this.getWeather.bind(this);
     this.getDate = this.getDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleOngoing = this.handleOngoing.bind(this);
+    this.handleInspectClick = this.handleInspectClick.bind(this);
     this.getInspections = this.getInspections.bind(this);
+    this.getEvents = this.getEvents.bind(this);
   }
 
   handleChange = (key, checked) => {
@@ -154,12 +151,26 @@ export class Indicators extends Component {
   }
 
   getInspections() {
-    Axios.get(`${api}inpection/events/counts`)
+    Axios.get(`${api}inspection/events/counts`)
       .then(response => {
         let data = response.data;
         let ongoing = data.INPROGRESS;
         let onhold = data.ONHOLD;
         this.setState({ onhold, ongoing, active: false });
+      })
+      .catch(err => console.log(err));
+  }
+
+  getEvents() {
+    const requestURL = `${api}incidentdetails/?resuming_hour=null&inspection_ref__inspection_status=ONHOLD&ordering=-stopping_hour`;
+    Axios.get(requestURL)
+      .then(response => {
+        let data = response.data;
+        let incident = data.filter(item => item.related === "PRODUCT").length;
+        let halt = data.filter(item => item.related === "HALT").length;
+        let weather = data.filter(item => item.related === "WEATHER").length;
+        let all = incident + halt + weather;
+        this.setState({ incident, halt, weather, all });
       })
       .catch(err => console.log(err));
   }
@@ -170,18 +181,87 @@ export class Indicators extends Component {
     );
   }
 
-  handleOngoing() {
-    this.props.history.push("/events", { type: "INPROGRESS" });
+  handleInspectClick(type) {
+    if (type === "ongoing") {
+      this.props.history.push("/events", { type: "INPROGRESS" });
+    } else if (type === "onhold") {
+      this.props.history.push("/events", { type: "ONHOLD" });
+    }
+  }
+
+  handleEventClick(related, value) {
+    if (value) {
+      switch (related) {
+        case "incident":
+          this.props.history.push("/events", {
+            type: "ONHOLD",
+            related: "PRODUCT"
+          });
+          break;
+        case "halt":
+          this.props.history.push("/events", {
+            type: "ONHOLD",
+            related: "HALT"
+          });
+          break;
+        case "weather":
+          this.props.history.push("/events", {
+            type: "ONHOLD",
+            related: "WEATHER"
+          });
+          break;
+        default:
+          this.props.history.push("/events", { type: "ONHOLD" });
+      }
+    }
   }
 
   componentDidMount() {
     this.getWeather();
     this.getDate();
     this.getInspections();
+    this.getEvents();
   }
 
   componentWillUnmount() {
     clearInterval(interval);
+  }
+
+  getContentListEvents() {
+    return {
+      all: (
+        <span
+          className="indicators-content all"
+          onClick={() => this.handleEventClick("all", this.state.all)}
+        >
+          {this.state.all}
+        </span>
+      ),
+      incident: (
+        <span
+          className="indicators-content incident"
+          onClick={() => this.handleEventClick("incident", this.state.incident)}
+        >
+          {this.state.incident}
+        </span>
+      ),
+      halt: (
+        <span
+          className="indicators-content halt"
+          onClick={() => this.handleEventClick("halt", this.state.halt)}
+        >
+          {this.state.halt}
+        </span>
+      ),
+      weather: (
+        <span
+          className="indicators-content weather"
+          onClick={() => this.handleEventClick("weather", this.state.weather)}
+        >
+          {this.state.weather}
+        </span>
+      )
+    };
   }
 
   render() {
@@ -219,7 +299,7 @@ export class Indicators extends Component {
             <div className="indicators-content inspections">
               <div
                 className="indicators-content ongoing"
-                onClick={this.handleOngoing}
+                onClick={() => this.handleInspectClick("ongoing")}
               >
                 {this.state.ongoing}
                 <span
@@ -235,7 +315,10 @@ export class Indicators extends Component {
                   />
                 </span>
               </div>
-              <div className="indicators-content onhold">
+              <div
+                className="indicators-content onhold"
+                onClick={() => this.handleInspectClick("onhold")}
+              >
                 {this.state.onhold}
                 <span
                   className="indicators-subtitle"
@@ -273,7 +356,7 @@ export class Indicators extends Component {
               this.onTabChange(key, "eventsKey");
             }}
           >
-            {contentListEvents[this.state.eventsKey]}
+            {this.getContentListEvents()[this.state.eventsKey]}
           </Card>
         </Col>
         <Col xs={24} sm={24} lg={7} xl={7}>

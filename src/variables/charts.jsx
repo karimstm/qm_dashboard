@@ -52,12 +52,18 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
       //     '<span style="color:{series.color}"></span><b>{point.y}</b> Hours <b>{point.y}</b> Minutes<br/>',
       // valueDecimals: 2
       formatter: function() {
+        // const getHours = hours => {
+        //   console.log(hours);
+        // };
         return (
           '<span style="color:' +
           this.color +
           '"></span><b>' +
-          Math.floor(this.y) +
-          "</b> Hours <b>" +
+          Math.floor(this.y / 24) +
+          "</b> Days <b>" +
+          // getHours(this.y) +
+          // Math.floor(this.y % 24) +
+          // "</b> Hours <b>" +
           Math.floor((this.y * 60) % 60) +
           "</b> Minutes<br/>"
         );
@@ -138,6 +144,9 @@ const quantityChartOptions = (
   Highcharts
 ) => {
   return {
+    lang: {
+      drillUpText: "< Back"
+    },
     chart: {
       //   animation: false,
       type: "column",

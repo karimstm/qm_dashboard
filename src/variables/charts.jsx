@@ -52,20 +52,25 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
       //     '<span style="color:{series.color}"></span><b>{point.y}</b> Hours <b>{point.y}</b> Minutes<br/>',
       // valueDecimals: 2
       formatter: function() {
-        // const getHours = hours => {
-        //   console.log(hours);
-        // };
+        const getHours = hours => {
+          let h = Math.floor(this.y % 24);
+          return h ? h + "</b> Hours <b>" : "";
+        };
+        const getDays = hours => {
+          let d = Math.floor(this.y / 24);
+          return d ? d + "</b> Days <b>" : "";
+        };
+        const getMinutes = hours => {
+          let m = Math.floor((this.y * 60) % 60);
+          return m ? m + "</b> Minutes<br/>" : "";  
+        };
         return (
           '<span style="color:' +
           this.color +
           '"></span><b>' +
-          Math.floor(this.y / 24) +
-          "</b> Days <b>" +
-          // getHours(this.y) +
-          // Math.floor(this.y % 24) +
-          // "</b> Hours <b>" +
-          Math.floor((this.y * 60) % 60) +
-          "</b> Minutes<br/>"
+          getDays(this.y) +
+          getHours(this.y) +
+          getMinutes(this.y)
         );
       }
     },

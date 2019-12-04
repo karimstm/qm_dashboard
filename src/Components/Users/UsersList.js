@@ -25,7 +25,6 @@ class UsersList extends Component {
 
   // Hnadle filters in UserFilter Component
   onSubmit = ({ is_active, first_name, last_name, email }) => {
-    console.log("karim");
     this.props.fetchUsers(false, is_active, email, first_name, last_name);
   };
 

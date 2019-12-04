@@ -16,7 +16,7 @@ const tabListEvents = [
   },
   {
     key: "incident",
-    tab: "Incident Quality"
+    tab: "Quality incident"
   },
   {
     key: "halt",

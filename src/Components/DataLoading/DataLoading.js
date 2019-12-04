@@ -9,6 +9,7 @@ import {
   FetchFamily,
   FetchType
 } from "../../actions/product";
+import { FetchVessels } from '../../actions/vessel';
 import { FetchClient } from "../../actions/client";
 import { connect } from "react-redux";
 import { openNotification } from "../NotificationMessages";
@@ -18,6 +19,8 @@ import FamilyTable from "./Tables/FamilyTable";
 import TypeTable from "./Tables/TypeTable";
 import ClientTable from "./Tables/ClientTable";
 import OriginTable from "./Tables/OriginTable";
+import VesselTable from "./Tables/VesselTable";
+import { FetchOrigin } from "../../actions/origin";
 
 const { TabPane } = Tabs;
 
@@ -48,6 +51,12 @@ class DataLoading extends Component {
     await FetchProducts();
   };
 
+
+  // Fetch list of vessels
+  fetchVessels = async () => {
+    const { FetchVessels } = this.props;
+    await FetchVessels();
+  }
   // Fetch List of categories
   fetchCategories = async () => {
     const { FetchCategroy } = this.props;
@@ -59,6 +68,12 @@ class DataLoading extends Component {
     const { FetchFamily } = this.props;
     await FetchFamily();
   };
+
+  //Fetch list of origins
+  fetchOrigins = async () => {
+    const { FetchOrigin } = this.props;
+    await FetchOrigin();
+  }
 
   // Fetch List of product types
   fetchTypes = async () => {
@@ -79,6 +94,8 @@ class DataLoading extends Component {
     this.fetchFamilies();
     this.fetchTypes();
     this.fetchClients();
+    this.fetchVessels();
+    this.fetchOrigins();
   }
 
   action = (type, title) => {
@@ -96,13 +113,17 @@ class DataLoading extends Component {
       families,
       familiesError,
       types,
-      typesError
+      typesError,
+      vessels,
+      origins,
+      originError
     } = this.props;
     if (error) openNotification(error);
     else if (categoriesError) openNotification(categoriesError);
     else if (familiesError) openNotification(familiesError);
     else if (typesError) openNotification(typesError);
     else if (clientsError) openNotification(clientsError);
+    else if (originError) openNotification(originError);
 
     return (
       <div style={{ background: "#fff", padding: "24px" }}>
@@ -124,7 +145,10 @@ class DataLoading extends Component {
             <ClientTable dataSource={clients} />
           </TabPane>
           <TabPane tab="Origin" key="6">
-            <OriginTable dataSource={types} />
+            <OriginTable dataSource={origins} />
+          </TabPane>
+          <TabPane tab="Vessel" key="7">
+            <VesselTable dataSource={vessels} />
           </TabPane>
         </Tabs>
         <ModalContent
@@ -149,7 +173,11 @@ const mapStateToProps = state => {
     categoriesError: state.categories.error,
     familiesError: state.families.error,
     typesError: state.types.error,
-    clientsError: state.clients.error
+    clientsError: state.clients.error,
+    vessels: state.vessels.vessels,
+    vesselsError: state.vessels.error,
+    origins: state.origins.origins,
+    originError: state.origins.error
   };
 };
 
@@ -158,5 +186,7 @@ export default connect(mapStateToProps, {
   FetchCategroy,
   FetchFamily,
   FetchType,
-  FetchClient
+  FetchClient,
+  FetchVessels,
+  FetchOrigin
 })(DataLoading);

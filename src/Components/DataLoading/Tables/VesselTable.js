@@ -13,9 +13,9 @@ const columns = [
         key: 'name',
     },
     {
-        title: 'Holds #',
+        title: 'Holds',
         dataIndex: 'holds_nbr',
-        key: 'destination',
+        key: 'holds_nbr',
     }
 ]
 

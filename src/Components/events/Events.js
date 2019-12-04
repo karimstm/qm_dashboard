@@ -78,7 +78,6 @@ export class TableEvent extends Component {
   componentDidMount() {
     const state = this.props.history.location.state;
     if (state && state.type === "INPROGRESS") {
-      console.log("ComponentDidMount INPROGRESS");
       this.setState(
         { tabLoading: true, type: "INPROGRESS", resuming_hour: "" },
         () => this.onFetchData()
@@ -88,13 +87,11 @@ export class TableEvent extends Component {
       state.type === "ONHOLD" &&
       state.related === "PRODUCT"
     ) {
-      console.log("ComponentDidMount ONHOLD PRODUCT");
       this.setState(
         { tabLoading: true, type: "ONHOLD", related: "PRODUCT" },
         () => this.onFetchData()
       );
     } else if (state && state.type === "ONHOLD" && state.related === "HALT") {
-      console.log("ComponentDidMount ONHOLD HALT");
       this.setState({ tabLoading: true, type: "ONHOLD", related: "HALT" }, () =>
         this.onFetchData()
       );
@@ -103,13 +100,11 @@ export class TableEvent extends Component {
       state.type === "ONHOLD" &&
       state.related === "WEATHER"
     ) {
-      console.log("ComponentDidMount ONHOLD WEATHER");
       this.setState(
         { tabLoading: true, type: "ONHOLD", related: "WEATHER" },
         () => this.onFetchData()
       );
     } else {
-      console.log("ComponentDidMount ONHOLD ALL");
       this.setState({ tabLoading: true, type: "ONHOLD" }, () =>
         this.onFetchData()
       );
@@ -123,9 +118,7 @@ export class TableEvent extends Component {
   }
 
   onFetchData() {
-    console.log("Fetch: ", this.state.type);
     const requestURL = `${api}incidentdetails/?resuming_hour=${this.state.resuming_hour}&inspection_ref__inspection_status=${this.state.type}&related=${this.state.related}&ordering=-stopping_hour`;
-    console.log(requestURL);
     let dataSource = [];
     axios
       .get(requestURL)

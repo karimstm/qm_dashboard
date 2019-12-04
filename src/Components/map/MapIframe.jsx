@@ -23,23 +23,25 @@ class MapIframe extends Component {
   }
 
   handleChange = (key, checked) => {
-    let long;
-    let lat;
-    let zoom;
-    if (key === "jorf") {
-      long = 33.1232;
-      lat = -8.63;
-      zoom = 17;
-    } else if (key === "safi") {
-      long = 32.3081;
-      lat = -9.2481;
-      zoom = 17;
-    } else if (key === "casablanca") {
-      long = 33.6067;
-      lat = -7.6042;
-      zoom = 17;
+    if (checked) {
+      let long;
+      let lat;
+      let zoom;
+      if (key === "jorf") {
+        long = 33.1232;
+        lat = -8.63;
+        zoom = 17;
+      } else if (key === "safi") {
+        long = 32.3081;
+        lat = -9.2481;
+        zoom = 17;
+      } else if (key === "casablanca") {
+        long = 33.6067;
+        lat = -7.6042;
+        zoom = 17;
+      }
+      this.setState({ portKey: key, checked, long, lat, zoom });
     }
-    this.setState({ portKey: key, checked, long, lat, zoom });
   };
 
   render() {

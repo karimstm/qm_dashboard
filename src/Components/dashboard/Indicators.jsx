@@ -78,9 +78,11 @@ export class Indicators extends Component {
   }
 
   handleChange = (key, checked) => {
-    this.setState({ weatherKey: key, checked }, () => {
-      this.getWeather();
-    });
+    if (checked) {
+      this.setState({ weatherKey: key, checked }, () => {
+        this.getWeather();
+      });
+    }
   };
 
   getWeather = () => {

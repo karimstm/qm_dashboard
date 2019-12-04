@@ -19,6 +19,8 @@ import FamilyTable from "./Tables/FamilyTable";
 import TypeTable from "./Tables/TypeTable";
 import ClientTable from "./Tables/ClientTable";
 import OriginTable from "./Tables/OriginTable";
+import VesselTable from "./Tables/VesselTable";
+import { FetchOrigin } from "../../actions/origin";
 
 const { TabPane } = Tabs;
 
@@ -49,6 +51,12 @@ class DataLoading extends Component {
     await FetchProducts();
   };
 
+
+  // Fetch list of vessels
+  fetchVessels = async () => {
+    const { FetchVessels } = this.props;
+    await FetchVessels();
+  }
   // Fetch List of categories
   fetchCategories = async () => {
     const { FetchCategroy } = this.props;
@@ -60,6 +68,12 @@ class DataLoading extends Component {
     const { FetchFamily } = this.props;
     await FetchFamily();
   };
+
+  //Fetch list of origins
+  fetchOrigins = async () => {
+    const { FetchOrigin } = this.props;
+    await FetchOrigin();
+  }
 
   // Fetch List of product types
   fetchTypes = async () => {
@@ -80,6 +94,8 @@ class DataLoading extends Component {
     this.fetchFamilies();
     this.fetchTypes();
     this.fetchClients();
+    this.fetchVessels();
+    this.fetchOrigins();
   }
 
   action = (type, title) => {
@@ -99,13 +115,15 @@ class DataLoading extends Component {
       types,
       typesError,
       vessels,
-      origins
+      origins,
+      originError
     } = this.props;
     if (error) openNotification(error);
     else if (categoriesError) openNotification(categoriesError);
     else if (familiesError) openNotification(familiesError);
     else if (typesError) openNotification(typesError);
     else if (clientsError) openNotification(clientsError);
+    else if (originError) openNotification(originError);
 
     return (
       <div style={{ background: "#fff", padding: "24px" }}>
@@ -130,7 +148,7 @@ class DataLoading extends Component {
             <OriginTable dataSource={origins} />
           </TabPane>
           <TabPane tab="Vessel" key="7">
-            <OriginTable dataSource={vessels} />
+            <VesselTable dataSource={vessels} />
           </TabPane>
         </Tabs>
         <ModalContent
@@ -158,8 +176,8 @@ const mapStateToProps = state => {
     clientsError: state.clients.error,
     vessels: state.vessels.vessels,
     vesselsError: state.vessels.error,
-    // origins: state.origins.origins,
-    // error: state.origins.error
+    origins: state.origins.origins,
+    originError: state.origins.error
   };
 };
 
@@ -170,4 +188,5 @@ export default connect(mapStateToProps, {
   FetchType,
   FetchClient,
   FetchVessels,
+  FetchOrigin
 })(DataLoading);

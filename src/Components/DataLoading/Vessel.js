@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, Select } from 'antd';
-import { PostType } from '../../actions/product';
+import { Form, Input, Icon, Button, InputNumber } from 'antd';
+import { PostVessel } from '../../actions/vessel';
 import { connect } from 'react-redux';
 import { openNotification, successNotifiaction } from '../NotificationMessages';
 import { VESSEL_INSERT_SUCCESS } from '../../actions/types';
@@ -13,7 +13,7 @@ class Vessel extends Component {
         this.props.form.validateFields((err, values) => {
             console.log(values)
             if (!err) {
-                this.props.PostType(values)
+                this.props.PostVessel(values)
                 .then(res => {
                     if (res.type === VESSEL_INSERT_SUCCESS)
                         successNotifiaction("Vessel has been added successfuly")
@@ -26,8 +26,8 @@ class Vessel extends Component {
     render() {
 
         const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
-        const clientNameError = isFieldTouched('name') && getFieldError('name');
-        const clientDestinationError = isFieldTouched('destination') && getFieldError('destination');
+        const vesselNameError = isFieldTouched('name') && getFieldError('name');
+        const vesselDestinationError = isFieldTouched('destination') && getFieldError('destination');
         const { error } = this.props;
 
         if (error )
@@ -35,24 +35,21 @@ class Vessel extends Component {
         return (
             <>
                 <Form onSubmit={this.handleSubmit}>
-                    <Form.Item validateStatus={clientNameError ? 'error' : ''} help={clientNameError || ''}>
+                    <Form.Item validateStatus={vesselNameError ? 'error' : ''} help={vesselNameError || ''}>
                         {getFieldDecorator('name', {
                             rules: [{ required: true, message: 'Please enter a name' }],
                         })(
                             <Input
                                 prefix={<Icon type="shopping-cart" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Client Name"
+                                placeholder="Vessel Name"
                             />,
                         )}
                     </Form.Item>
-                    <Form.Item validateStatus={clientDestinationError ? 'error' : ''} help={clientDestinationError || ''}>
+                    <Form.Item validateStatus={vesselDestinationError ? 'error' : ''} help={vesselDestinationError || ''}>
                         {getFieldDecorator('destination', {
                             rules: [{ required: true, message: 'Please enter a destination' }],
                         })(
-                            <Input
-                                prefix={<Icon type="shopping-cart" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Client Destination"
-                            />,
+                            <InputNumber min={1} max={10} placeholder="Number of holds" style={{ width: '100%' }} />,
                         )}
                     </Form.Item>
                     <Form.Item>
@@ -74,13 +71,13 @@ class Vessel extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        vessels: state.types.vessel,
-        error: state.types.error,
+        vessels: state.vessels.vessels,
+        error: state.vessels.error,
     }
 }
 
 export default connect(
     mapStateToProps, {
-        PostType
+        PostVessel
     }
 )(Form.create({ name: 'horizontal_product' })(Vessel));

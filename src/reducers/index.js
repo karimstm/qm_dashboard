@@ -7,6 +7,7 @@ import { typeReducer } from './typeReducer';
 import { clientReducer } from "./clientReducer";
 import { usersReducer } from "./users";
 import { vesselReducer } from './VesselReducer';
+import { originReducer } from './originReducer';
 
 export default combineReducers({
   auth,
@@ -17,4 +18,5 @@ export default combineReducers({
   clients: clientReducer,
   users: usersReducer,
   vessels: vesselReducer,
+  origins: originReducer
 });

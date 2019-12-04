@@ -9,6 +9,7 @@ import {
   FetchFamily,
   FetchType
 } from "../../actions/product";
+import { FetchVessels } from '../../actions/vessel';
 import { FetchClient } from "../../actions/client";
 import { connect } from "react-redux";
 import { openNotification } from "../NotificationMessages";
@@ -96,7 +97,9 @@ class DataLoading extends Component {
       families,
       familiesError,
       types,
-      typesError
+      typesError,
+      vessels,
+      origins
     } = this.props;
     if (error) openNotification(error);
     else if (categoriesError) openNotification(categoriesError);
@@ -124,7 +127,10 @@ class DataLoading extends Component {
             <ClientTable dataSource={clients} />
           </TabPane>
           <TabPane tab="Origin" key="6">
-            <OriginTable dataSource={types} />
+            <OriginTable dataSource={origins} />
+          </TabPane>
+          <TabPane tab="Vessel" key="7">
+            <OriginTable dataSource={vessels} />
           </TabPane>
         </Tabs>
         <ModalContent
@@ -149,7 +155,11 @@ const mapStateToProps = state => {
     categoriesError: state.categories.error,
     familiesError: state.families.error,
     typesError: state.types.error,
-    clientsError: state.clients.error
+    clientsError: state.clients.error,
+    vessels: state.vessels.vessels,
+    vesselsError: state.vessels.error,
+    // origins: state.origins.origins,
+    // error: state.origins.error
   };
 };
 
@@ -158,5 +168,6 @@ export default connect(mapStateToProps, {
   FetchCategroy,
   FetchFamily,
   FetchType,
-  FetchClient
+  FetchClient,
+  FetchVessels,
 })(DataLoading);

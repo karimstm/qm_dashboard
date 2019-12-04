@@ -5,6 +5,7 @@ import Category from './Category';
 import Family from './Family';
 import Type from './Type';
 import Client from './Client';
+import Vessel from './Vessel';
 
 
 
@@ -21,6 +22,8 @@ class DropdownList extends Component {
             this.props.action(Type, "Type")
         else if (key === "5")
             this.props.action(Client, "Client")
+        else if (key === "7")
+            this.props.action(Vessel, "Vessel")
         
     }
 
@@ -45,7 +48,7 @@ class DropdownList extends Component {
                 Origin
           </Menu.Item>
           <Menu.Item key="7">
-                Vesset
+                Vessel
           </Menu.Item>
           <Menu.Item key="8">
                 Port

@@ -3,7 +3,7 @@ import { Form, Input, Icon, Button, Select } from 'antd';
 import { PostType } from '../../actions/product';
 import { connect } from 'react-redux';
 import { openNotification, successNotifiaction } from '../NotificationMessages';
-import { TYPE_INSERT_SUCCESS } from '../../actions/types';
+import { VESSEL_INSERT_SUCCESS } from '../../actions/types';
 
 
 class Vessel extends Component {
@@ -15,8 +15,8 @@ class Vessel extends Component {
             if (!err) {
                 this.props.PostType(values)
                 .then(res => {
-                    if (res.type === TYPE_INSERT_SUCCESS)
-                        successNotifiaction("Product type has been added successfuly")
+                    if (res.type === VESSEL_INSERT_SUCCESS)
+                        successNotifiaction("Vessel has been added successfuly")
                 })
             }
         });
@@ -74,7 +74,7 @@ class Vessel extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        types: state.types.types,
+        vessels: state.types.vessel,
         error: state.types.error,
     }
 }

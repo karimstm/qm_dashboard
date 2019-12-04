@@ -33,13 +33,13 @@ class SiderMenu extends Component {
           defaultOpenKeys={["sub1"]}
           mode="vertical"
         >
-          <Menu.Item key="5" selectable={false}>
+          {/* <Menu.Item key="5" selectable={false}>
             <Input.Search
               id="input"
               placeholder="input search text"
               onSearch={value => console.log(value)}
             />
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item key="12">
             <Link to="/">
               <Icon type="home" />

@@ -76,7 +76,7 @@ class MapIframe extends Component {
             width="100%"
             height="600"
             scrolling="no"
-            frameborder="0"
+            frameBorder="0"
             src={`https://www.marinetraffic.com/en/ais/embed/zoom:${this.state.zoom}/centery:${this.state.long}/centerx:${this.state.lat}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false/`}
           ></iframe>
           <div className="iframe-hacked"></div>

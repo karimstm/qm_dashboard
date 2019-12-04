@@ -118,7 +118,7 @@ i.anticon.anticon-arrow-left {
   left: 0px;
 }
 
-i.anticon.anticon-setting {
+.chart-setting i.anticon.anticon-setting {
   font-size: 20px;
   position: absolute;
   top: 2%;

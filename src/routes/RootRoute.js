@@ -10,6 +10,7 @@ import Data from "../Components/pages/Data";
 import UserApprovalPage from "../Components/pages/UserApprovalPage";
 import UsersListPage from "../Components/pages/UsersListPage";
 import EventsListPage from "../Components/pages/EventsListPage";
+import MapPage from "../Components/pages/MapPage";
 
 class RootRoute extends Component {
   render() {
@@ -25,6 +26,7 @@ class RootRoute extends Component {
         <Route path="/users" exact component={UsersListPage} />
         <Route path="/users/approval" exact component={UserApprovalPage} />
         <Route path="/events" exact component={EventsListPage} />
+        <Route path="/map" exact component={MapPage} />
         <Route path="*" component={NotFound} />
       </Switch>
     );

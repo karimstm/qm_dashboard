@@ -28,13 +28,13 @@ export default class Navbar extends Component {
         <div className="notif-div">
           <Icon type="info-circle" />
         </div>
-        <div className="search">
+        {/* <div className="search">
           <Input.Search
             id="input"
             placeholder="input search text"
             onSearch={value => console.log(value)}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

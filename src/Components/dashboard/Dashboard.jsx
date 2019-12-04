@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Row } from "antd";
+import { Row, Col } from "antd";
 import Indicators from "./Indicators";
 import Stoppage from "./Stoppage";
 import Quantity from "./Quantity";
+import MapIframe from "./MapIframe";
 
 class Dashboard extends Component {
   render() {
@@ -16,7 +17,12 @@ class Dashboard extends Component {
         </Row>
         <br />
         <Row>
-          <Quantity />
+          <Col>
+            <Quantity />
+          </Col>
+          <Col>
+            <MapIframe />
+          </Col>
         </Row>
       </div>
     );

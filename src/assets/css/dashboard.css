@@ -285,3 +285,15 @@ i.anticon.anticon-sync {
 .checkable-tag:hover {
   cursor: pointer;
 }
+
+.iframe-hacked {
+  width: 100%;
+  height: 25px;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  z-index: 180;
+  position: relative;
+  bottom: 27px;
+  border-top: 1px solid #eeeeee;
+}

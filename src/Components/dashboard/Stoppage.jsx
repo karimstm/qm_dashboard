@@ -245,7 +245,7 @@ class Stoppage extends Component {
       seriesOptions: AreaSeries,
       pieSeries: [],
       drilldownSeries: [],
-      rangeSelected: "Week"
+      rangeSelected: "Month"
     };
     this.chart = {};
     this.lastSeries = AreaSeries;
@@ -334,7 +334,6 @@ class Stoppage extends Component {
   }
 
   getEvent(e) {
-    console.log(e.seriesOptions.name);
     if (e.type === "drilldown" && e.seriesOptions.name === "halt") {
       //   this.setState({
       //     seriesOptions: AreaHaltSeries
@@ -382,7 +381,7 @@ class Stoppage extends Component {
     const menu = (
       <Menu
         selectable={true}
-        defaultSelectedKeys={["0"]}
+        defaultSelectedKeys={["1"]}
         onSelect={item => this.handleSelect(item.item)}
       >
         <Menu.Item key="0">Week</Menu.Item>
@@ -396,7 +395,7 @@ class Stoppage extends Component {
       <div>
         <Col span={8}>
           <Card bordered={false}>
-            <p className="charts-title">Stoppage Summary</p>
+            <p className="charts-title">Stoppages Summary</p>
             <p className="charts-subtitle">
               One&nbsp;{this.state.rangeSelected}
             </p>
@@ -418,7 +417,7 @@ class Stoppage extends Component {
         </Col>
         <Col span={16}>
           <Card bordered={false}>
-            <p className="charts-title">Stoppage Historical</p>
+            <p className="charts-title">Stoppages History</p>
             <br />
             <AreaStoppageChart
               seriesOptions={this.state.seriesOptions}

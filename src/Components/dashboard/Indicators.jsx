@@ -16,7 +16,7 @@ const tabListEvents = [
   },
   {
     key: "incident",
-    tab: "Incident Quality"
+    tab: "Quality incident"
   },
   {
     key: "halt",
@@ -78,9 +78,11 @@ export class Indicators extends Component {
   }
 
   handleChange = (key, checked) => {
-    this.setState({ weatherKey: key, checked }, () => {
-      this.getWeather();
-    });
+    if (checked) {
+      this.setState({ weatherKey: key, checked }, () => {
+        this.getWeather();
+      });
+    }
   };
 
   getWeather = () => {

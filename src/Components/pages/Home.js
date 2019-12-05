@@ -6,8 +6,6 @@ import Dashboard from "../dashboard/Dashboard";
 
 class Home extends Component {
   render() {
-    console.log(this.props);
-
     if (!this.props.isAuth) return <Redirect to="/login" />;
     return (
       <AppLayout

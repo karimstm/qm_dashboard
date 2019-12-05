@@ -75,6 +75,15 @@ class Siders extends Component {
             </Tooltip>
           </Link>
         </div>
+        <div id="side-menu">
+          <Link to="/map">
+            <Tooltip placement="right" title="Ports Map">
+              <div className="item">
+                <Icon type="compass" />
+              </div>
+            </Tooltip>
+          </Link>
+        </div>
         <div id="side-logout">
           <Icon type="logout" onClick={this.props.logout} id="s-logout" />
         </div>

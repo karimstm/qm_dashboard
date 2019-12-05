@@ -118,7 +118,7 @@ i.anticon.anticon-arrow-left {
   left: 0px;
 }
 
-i.anticon.anticon-setting {
+.chart-setting i.anticon.anticon-setting {
   font-size: 20px;
   position: absolute;
   top: 2%;
@@ -252,6 +252,7 @@ i.anticon.anticon-sync {
   font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
   font-size: 1.7em;
   margin-right: 10px;
+  font-weight: 400;
 }
 
 .weather-desc {
@@ -284,4 +285,16 @@ i.anticon.anticon-sync {
 
 .checkable-tag:hover {
   cursor: pointer;
+}
+
+.iframe-hacked {
+  width: 100%;
+  height: 25px;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  z-index: 180;
+  position: relative;
+  bottom: 27px;
+  border-top: 1px solid #eeeeee;
 }

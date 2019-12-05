@@ -21,6 +21,8 @@ import ClientTable from "./Tables/ClientTable";
 import OriginTable from "./Tables/OriginTable";
 import VesselTable from "./Tables/VesselTable";
 import { FetchOrigin } from "../../actions/origin";
+import { FetchPorts } from "../../actions/ports";
+import PortTable from "./Tables/PortTable";
 
 const { TabPane } = Tabs;
 
@@ -87,6 +89,12 @@ class DataLoading extends Component {
     await FetchClient();
   };
 
+  // Fetch list of ports
+  fetchPorts = async () => {
+    const { FetchPorts } = this.props;
+    await FetchPorts();
+  }
+
   // Fetch data one component is mounted
   componentDidMount() {
     this.fetchProduct();
@@ -96,6 +104,7 @@ class DataLoading extends Component {
     this.fetchClients();
     this.fetchVessels();
     this.fetchOrigins();
+    this.fetchPorts();
   }
 
   action = (type, title) => {
@@ -116,7 +125,9 @@ class DataLoading extends Component {
       typesError,
       vessels,
       origins,
-      originError
+      originError,
+      ports,
+      portsError
     } = this.props;
     if (error) openNotification(error);
     else if (categoriesError) openNotification(categoriesError);
@@ -124,6 +135,7 @@ class DataLoading extends Component {
     else if (typesError) openNotification(typesError);
     else if (clientsError) openNotification(clientsError);
     else if (originError) openNotification(originError);
+    else if (portsError) openNotification(portsError);
 
     return (
       <div style={{ background: "#fff", padding: "24px" }}>
@@ -149,6 +161,9 @@ class DataLoading extends Component {
           </TabPane>
           <TabPane tab="Vessel" key="7">
             <VesselTable dataSource={vessels} />
+          </TabPane>
+          <TabPane tab="Ports" key="8">
+            <PortTable dataSource={ports} />
           </TabPane>
         </Tabs>
         <ModalContent
@@ -177,7 +192,9 @@ const mapStateToProps = state => {
     vessels: state.vessels.vessels,
     vesselsError: state.vessels.error,
     origins: state.origins.origins,
-    originError: state.origins.error
+    originError: state.origins.error,
+    ports: state.ports.ports,
+    portsError: state.ports.error
   };
 };
 
@@ -188,5 +205,6 @@ export default connect(mapStateToProps, {
   FetchType,
   FetchClient,
   FetchVessels,
-  FetchOrigin
+  FetchOrigin,
+  FetchPorts
 })(DataLoading);

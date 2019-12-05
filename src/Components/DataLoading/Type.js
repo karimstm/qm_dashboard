@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button, Select } from 'antd';
+import { Form, Input, Icon, Button } from 'antd';
 import { PostType } from '../../actions/product';
 import { connect } from 'react-redux';
 import { openNotification, successNotifiaction } from '../NotificationMessages';

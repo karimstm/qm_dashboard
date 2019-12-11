@@ -45,6 +45,7 @@ class MapIframe extends Component {
   };
 
   render() {
+    const { zoom, long, lat } = this.state;
     return (
       <div>
         <Card
@@ -79,7 +80,7 @@ class MapIframe extends Component {
             height="600"
             scrolling="no"
             frameBorder="0"
-            src={`https://www.marinetraffic.com/en/ais/embed/zoom:${this.state.zoom}/centery:${this.state.long}/centerx:${this.state.lat}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false/`}
+            src={`https://www.marinetraffic.com/en/ais/embed/zoom:${zoom}/centery:${long}/centerx:${lat}/maptype:4/shownames:false/mmsi:0/shipid:0/fleet:/fleet_id:/vtypes:/showmenu:/remember:false/`}
           ></iframe>
           <div className="iframe-hacked"></div>
         </Card>

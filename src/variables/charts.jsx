@@ -62,7 +62,7 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
         };
         const getMinutes = hours => {
           let m = Math.floor((this.y * 60) % 60);
-          return m ? m + "</b> Minutes<br/>" : "";  
+          return m ? m + "</b> Minutes<br/>" : "";
         };
         return (
           '<span style="color:' +
@@ -115,6 +115,30 @@ const stoppageAreaChartOptions = seriesOptions => {
       layout: "vertical",
       align: "right",
       verticalAlign: "middle"
+    },
+    tooltip: {
+      formatter: function() {
+        const getHours = hours => {
+          let h = Math.floor(this.y % 24);
+          return h ? h + "</b> Hours <b>" : "";
+        };
+        const getDays = hours => {
+          let d = Math.floor(this.y / 24);
+          return d ? d + "</b> Days <b>" : "";
+        };
+        const getMinutes = hours => {
+          let m = Math.floor((this.y * 60) % 60);
+          return m ? m + "</b> Minutes<br/>" : "";
+        };
+        return (
+          '<span style="color:' +
+          this.color +
+          '"></span><b>' +
+          getDays(this.y) +
+          getHours(this.y) +
+          getMinutes(this.y)
+        );
+      }
     },
     responsive: {
       rules: [

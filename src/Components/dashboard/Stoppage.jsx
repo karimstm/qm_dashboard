@@ -4,7 +4,7 @@ import { Col, Card, Icon, Menu, Dropdown } from "antd";
 import PieStoppageChart from "./PieStoppageChart";
 import AreaStoppageChart from "./AreaStoppageChart";
 import moment from "moment";
-import Axios from "axios";
+import axios from "axios";
 import { api } from "../../actions/config";
 
 // var pieData = [
@@ -17,63 +17,6 @@ import { api } from "../../actions/config";
 //   { name: "Halt", y: 77, drilldown: "Halt", color: "#FBC658" },
 //   { name: "Weather", y: 12, drilldown: "Weather", color: "#51CBCE" }
 // ];
-
-// var summarydata = {
-//   halt: {
-//     total_minutes: "593.03",
-//     "Attente OCP pour début chargement": "477.057",
-//     "Arrêt OCP": "115.973"
-//   },
-//   incident: {
-//     total_minutes: "179.047",
-//     Motte: "17.528",
-//     "Débris de Caoutchouc / Corps étranger": "17.866",
-//     Temperature: "69.87",
-//     Humidity: "23.056",
-//     "Couleur du produit": "35.853"
-//   },
-//   weather: {
-//     total_minutes: "899.652",
-//     Pluie: "827.415",
-//     "Mauvais temps": "72.237"
-//   }
-// };
-
-const getColor = key => {
-  switch (key) {
-    case "incident":
-      return "#FBC658";
-    case "halt":
-      return "#EF8157";
-    case "weather":
-      return "#51CBCE";
-    default:
-      return "#51CBCE";
-  }
-};
-
-// var pieData = [];
-// Object.keys(summarydata).forEach(key => {
-//   let minutes = parseFloat(summarydata[key].total_minutes);
-//   pieData.push({
-//     name: key,
-//     y: moment.duration({ minutes: minutes }).asHours(),
-//     drilldown: key,
-//     color: getColor(key)
-//   });
-// });
-
-const getData = data => {
-  let ret = [];
-  let array = Object.keys(data);
-  array.shift();
-  array.forEach(key => {
-    let seconds = parseFloat(data[key]);
-    let hours = moment.duration({ seconds: seconds }).asHours();
-    ret.push([key, hours]);
-  });
-  return ret;
-};
 
 // var drilldownSeries = [
 //   {
@@ -106,149 +49,197 @@ const getData = data => {
 //   }
 // ];
 
-var AreaSeries = [
-  {
-    name: "Halt",
-    color: "#FBC658",
-    data: [
-      [Date.UTC(2019, 8, 1), 77],
-      [Date.UTC(2019, 9, 1), 88],
-      [Date.UTC(2019, 10, 1), 30]
-    ]
-  },
-  {
-    name: "Incident Quality",
-    color: "#EF8157",
-    data: [
-      [Date.UTC(2019, 8, 1), 12],
-      [Date.UTC(2019, 9, 1), 90],
-      [Date.UTC(2019, 10, 1), 9]
-    ]
-  },
-  {
-    name: "Weather",
-    color: "#51CBCE",
-    data: [
-      [Date.UTC(2019, 8, 1), 20],
-      [Date.UTC(2019, 9, 1), 100],
-      [Date.UTC(2019, 10, 1), 120]
-    ]
+// var AreaSeries = [
+//   {
+//     name: "Halt",
+//     color: "#FBC658",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 77],
+//       [Date.UTC(2019, 9, 1), 88],
+//       [Date.UTC(2019, 10, 1), 30]
+//     ]
+//   },
+//   {
+//     name: "Incident Quality",
+//     color: "#EF8157",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 12],
+//       [Date.UTC(2019, 9, 1), 90],
+//       [Date.UTC(2019, 10, 1), 9]
+//     ]
+//   },
+//   {
+//     name: "Weather",
+//     color: "#51CBCE",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 20],
+//       [Date.UTC(2019, 9, 1), 100],
+//       [Date.UTC(2019, 10, 1), 120]
+//     ]
+//   }
+// ];
+
+// var AreaHaltSeries = [
+//   {
+//     name: "OCP Stop",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 12],
+//       [Date.UTC(2019, 9, 1), 37],
+//       [Date.UTC(2019, 10, 1), 29]
+//     ]
+//   },
+//   {
+//     name: "Wait for Loading",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 10],
+//       [Date.UTC(2019, 9, 1), 67],
+//       [Date.UTC(2019, 10, 1), 37]
+//     ]
+//   },
+//   {
+//     name: "Intermediate Draft survey",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 20],
+//       [Date.UTC(2019, 9, 1), 100],
+//       [Date.UTC(2019, 10, 1), 120]
+//     ]
+//   }
+// ];
+
+// var AreaIncidentSeries = [
+//   {
+//     name: "Product Colour",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 12],
+//       [Date.UTC(2019, 9, 1), 37],
+//       [Date.UTC(2019, 10, 1), 29]
+//     ]
+//   },
+//   {
+//     name: "Precense of Clods",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 10],
+//       [Date.UTC(2019, 9, 1), 67],
+//       [Date.UTC(2019, 10, 1), 37]
+//     ]
+//   },
+//   {
+//     name: "High product Temperature",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 20],
+//       [Date.UTC(2019, 9, 1), 100],
+//       [Date.UTC(2019, 10, 1), 120]
+//     ]
+//   },
+//   {
+//     name: "Contamination by other product",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 20],
+//       [Date.UTC(2019, 9, 1), 100],
+//       [Date.UTC(2019, 10, 1), 120]
+//     ]
+//   }
+// ];
+
+// var AreaWeatherSeries = [
+//   {
+//     name: "High Dust Rate",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 12],
+//       [Date.UTC(2019, 9, 1), 37],
+//       [Date.UTC(2019, 10, 1), 29]
+//     ]
+//   },
+//   {
+//     name: "High Humidity",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 10],
+//       [Date.UTC(2019, 9, 1), 67],
+//       [Date.UTC(2019, 10, 1), 37]
+//     ]
+//   },
+//   {
+//     name: "Rain/Bad Weather",
+//     data: [
+//       [Date.UTC(2019, 8, 1), 20],
+//       [Date.UTC(2019, 9, 1), 100],
+//       [Date.UTC(2019, 10, 1), 120]
+//     ]
+//   }
+// ];
+
+const capitalize = str => {
+  return str.replace(/^\w/, c => c.toUpperCase());
+};
+
+const getColor = key => {
+  switch (key) {
+    case "Incident":
+      return "#FBC658";
+    case "Halt":
+      return "#EF8157";
+    case "Weather":
+      return "#51CBCE";
+    default:
+      return "#51CBCE";
   }
-];
+};
 
-var AreaHaltSeries = [
-  {
-    name: "OCP Stop",
-    data: [
-      [Date.UTC(2019, 8, 1), 12],
-      [Date.UTC(2019, 9, 1), 37],
-      [Date.UTC(2019, 10, 1), 29]
-    ]
-  },
-  {
-    name: "Wait for Loading",
-    data: [
-      [Date.UTC(2019, 8, 1), 10],
-      [Date.UTC(2019, 9, 1), 67],
-      [Date.UTC(2019, 10, 1), 37]
-    ]
-  },
-  {
-    name: "Intermediate Draft survey",
-    data: [
-      [Date.UTC(2019, 8, 1), 20],
-      [Date.UTC(2019, 9, 1), 100],
-      [Date.UTC(2019, 10, 1), 120]
-    ]
-  }
-];
+const getData = data => {
+  let ret = [];
+  let array = Object.keys(data);
+  array.shift();
+  array.forEach(key => {
+    let seconds = parseFloat(data[key]);
+    let hours = moment.duration({ seconds: seconds }).asHours();
+    ret.push([key, hours]);
+  });
+  return ret;
+};
 
-var AreaIncidentSeries = [
-  {
-    name: "Product Colour",
-    data: [
-      [Date.UTC(2019, 8, 1), 12],
-      [Date.UTC(2019, 9, 1), 37],
-      [Date.UTC(2019, 10, 1), 29]
-    ]
-  },
-  {
-    name: "Precense of Clods",
-    data: [
-      [Date.UTC(2019, 8, 1), 10],
-      [Date.UTC(2019, 9, 1), 67],
-      [Date.UTC(2019, 10, 1), 37]
-    ]
-  },
-  {
-    name: "High product Temperature",
-    data: [
-      [Date.UTC(2019, 8, 1), 20],
-      [Date.UTC(2019, 9, 1), 100],
-      [Date.UTC(2019, 10, 1), 120]
-    ]
-  },
-  {
-    name: "Contamination by other product",
-    data: [
-      [Date.UTC(2019, 8, 1), 20],
-      [Date.UTC(2019, 9, 1), 100],
-      [Date.UTC(2019, 10, 1), 120]
-    ]
-  }
-];
+const getAreaData = data => {
+  let ret = [];
+  Object.keys(data).forEach(key => {
+    data[key].forEach(dataPoint => {
+      ret.push([
+        Date.parse(dataPoint.date),
+        moment.duration({ seconds: parseFloat(dataPoint.duration) }).asHours()
+      ]);
+    });
+  });
+  return ret;
+};
 
-var AreaWeatherSeries = [
-  {
-    name: "High Dust Rate",
-    data: [
-      [Date.UTC(2019, 8, 1), 12],
-      [Date.UTC(2019, 9, 1), 37],
-      [Date.UTC(2019, 10, 1), 29]
-    ]
-  },
-  {
-    name: "High Humidity",
-    data: [
-      [Date.UTC(2019, 8, 1), 10],
-      [Date.UTC(2019, 9, 1), 67],
-      [Date.UTC(2019, 10, 1), 37]
-    ]
-  },
-  {
-    name: "Rain/Bad Weather",
-    data: [
-      [Date.UTC(2019, 8, 1), 20],
-      [Date.UTC(2019, 9, 1), 100],
-      [Date.UTC(2019, 10, 1), 120]
-    ]
-  }
-];
-
-// const getEventsData = data => {
-//   let ret = [];
-//   data.forEach(item => {
-//     ret.push([Date.parse(item.day), parseFloat(item.duration)]);
-//   });
-//   return ret;
-// };
-
-// var AreaSeries = [];
-// Object.keys(eventsData).forEach(key => {
-//   AreaSeries.push({ name: key, data: getEventsData(eventsData[key]) });
-// });
+const getAreaDrillDownData = rawData => {
+  let drillDownData = [];
+  Object.keys(rawData).forEach(key => {
+    let data = [];
+    rawData[key].forEach(dataPoint => {
+      data.push([
+        Date.parse(dataPoint.date),
+        moment.duration({ seconds: parseFloat(dataPoint.duration) }).asHours()
+      ]);
+    });
+    drillDownData.push({ name: capitalize(key), data: data });
+  });
+  return drillDownData;
+};
 
 class Stoppage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seriesOptions: AreaSeries,
+      seriesOptions: [],
       pieSeries: [],
+      AreaSeries: [],
+      AreaHaltSeries: [],
+      AreaIncidentSeries: [],
+      AreaWeatherSeries: [],
       drilldownSeries: [],
       rangeSelected: "Month"
     };
     this.chart = {};
-    this.lastSeries = AreaSeries;
+    this.lastSeries = this.state.AreaSeries;
     this.getEvent = this.getEvent.bind(this);
     this.getChart = this.getChart.bind(this);
     this.updateChart = this.updateChart.bind(this);
@@ -279,36 +270,65 @@ class Stoppage extends Component {
   }
 
   onFetchData() {
-    let request = `${api}incidentpiechart/?start_date=${this.getRange()}&end_date=${moment().format(
+    let requestPieChart = `${api}incidentpiechart/?start_date=${this.getRange()}&end_date=${moment().format(
       "YYYY-MM-DD"
     )}`;
-    Axios.get(request)
+    let requestAreaChart = `${api}incidentchart/`;
+    axios
+      .all([axios.get(requestPieChart), axios.get(requestAreaChart)])
       .then(response => {
-        let res = response.data;
+        let resPie = response[0].data;
+        let resArea = response[1].data;
         let pieData = [];
         let drilldownSeries = [];
         let pieSeries = [];
-        Object.keys(res).forEach(key => {
-          let seconds = parseFloat(res[key].total_seconds);
+        let AreaSeries = [];
+        let AreaHaltSeries = [];
+        let AreaIncidentSeries = [];
+        let AreaWeatherSeries = [];
+        Object.keys(resPie).forEach(key => {
+          let seconds = parseFloat(resPie[key].total_seconds);
           pieData.push({
-            name: key,
+            name: capitalize(key),
             y: moment.duration({ seconds: seconds }).asHours(),
             drilldown: key,
             color: getColor(key)
           });
         });
         pieSeries.push({
-          name: "stoppage",
+          name: "Stoppage",
           data: pieData
         });
-        Object.keys(res).forEach(key => {
+        Object.keys(resPie).forEach(key => {
           drilldownSeries.push({
-            name: key,
+            name: capitalize(key),
             id: key,
-            data: getData(res[key])
+            data: getData(resPie[key])
           });
         });
-        this.setState({ pieSeries, drilldownSeries });
+        Object.keys(resArea).forEach(key => {
+          AreaSeries.push({
+            name: capitalize(key),
+            data: getAreaData(resArea[key])
+          });
+          if (key === "halt") {
+            AreaHaltSeries = getAreaDrillDownData(resArea[key]);
+          } else if (key === "incident") {
+            AreaIncidentSeries = getAreaDrillDownData(resArea[key]);
+          } else if (key === "weather") {
+            AreaWeatherSeries = getAreaDrillDownData(resArea[key]);
+          }
+        });
+        this.lastSeries = AreaSeries;
+        this.setState({
+          pieSeries,
+          drilldownSeries,
+          seriesOptions: AreaSeries,
+          AreaSeries,
+          AreaHaltSeries,
+          AreaIncidentSeries,
+          AreaWeatherSeries
+        });
       })
       .catch(err => console.log(err));
   }
@@ -329,40 +349,23 @@ class Stoppage extends Component {
       this.chart.addSeries(serie, false);
     });
     this.chart.redraw(true);
-    // this.chart.hideLoading();
     this.lastSeries = series;
   }
 
   getEvent(e) {
-    if (e.type === "drilldown" && e.seriesOptions.name === "halt") {
-      //   this.setState({
-      //     seriesOptions: AreaHaltSeries
-      //   });
-      //   AreaHaltSeries.forEach((serie, index) => {
-      //     this.chart.series[index].update(
-      //       { name: serie.name, data: serie.data },
-      //       true
-      //     );
-      //   });
-      //   this.chart.redraw();
+    const {
+      AreaHaltSeries,
+      AreaIncidentSeries,
+      AreaWeatherSeries,
+      AreaSeries
+    } = this.state;
+    if (e.type === "drilldown" && e.seriesOptions.name === "Halt") {
       this.updateChart(AreaHaltSeries);
-    } else if (e.type === "drilldown" && e.seriesOptions.name === "incident") {
+    } else if (e.type === "drilldown" && e.seriesOptions.name === "Incident") {
       this.updateChart(AreaIncidentSeries);
-    } else if (e.type === "drilldown" && e.seriesOptions.name === "weather") {
+    } else if (e.type === "drilldown" && e.seriesOptions.name === "Weather") {
       this.updateChart(AreaWeatherSeries);
     } else if (e.type === "drillup") {
-      //   setTimeout(() => {
-      //     this.setState({
-      //       seriesOptions: AreaSeries
-      //     });
-      //   }, 100);
-      //   AreaSeries.forEach((serie, index) => {
-      //     this.chart.series[index].update(
-      //       { name: serie.name, data: serie.data },
-      //       true
-      //     );
-      //     this.chart.redraw();
-      //   });
       this.updateChart(AreaSeries);
     }
   }

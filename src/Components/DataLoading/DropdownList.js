@@ -7,6 +7,7 @@ import Type from './Type';
 import Client from './Client';
 import Vessel from './Vessel';
 import Origins from './Origins';
+import Ports from './Ports';
 
 
 
@@ -27,6 +28,8 @@ class DropdownList extends Component {
             this.props.action(Origins, "Origin")
         else if (key === "7")
             this.props.action(Vessel, "Vessel")
+        else if (key === "8")
+            this.props.action(Ports, "Port")
         
     }
 

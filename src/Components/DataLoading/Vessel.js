@@ -27,7 +27,7 @@ class Vessel extends Component {
 
         const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
         const vesselNameError = isFieldTouched('name') && getFieldError('name');
-        const vesselDestinationError = isFieldTouched('destination') && getFieldError('destination');
+        const vesselholdsError = isFieldTouched('holds') && getFieldError('holds');
         const { error } = this.props;
 
         if (error )
@@ -45,9 +45,9 @@ class Vessel extends Component {
                             />,
                         )}
                     </Form.Item>
-                    <Form.Item validateStatus={vesselDestinationError ? 'error' : ''} help={vesselDestinationError || ''}>
-                        {getFieldDecorator('destination', {
-                            rules: [{ required: true, message: 'Please enter a destination' }],
+                    <Form.Item validateStatus={vesselholdsError ? 'error' : ''} help={vesselholdsError || ''}>
+                        {getFieldDecorator('holds', {
+                            rules: [{ required: true, message: 'Please enter a holds' }],
                         })(
                             <InputNumber min={1} max={10} placeholder="Number of holds" style={{ width: '100%' }} />,
                         )}

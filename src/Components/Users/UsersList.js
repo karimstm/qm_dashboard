@@ -10,7 +10,7 @@ class UsersList extends Component {
   //Fetch users
   fetchUsersList = async () => {
     const { fetchUsers } = this.props;
-    const response = await fetchUsers();
+    await fetchUsers()
   };
 
   //Update User status

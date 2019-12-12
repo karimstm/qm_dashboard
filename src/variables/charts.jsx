@@ -47,6 +47,13 @@ const stoppagePieChartOptions = (seriesOptions, drilldownSeries, getEvent) => {
         showInLegend: true
       }
     },
+    legend: {
+      enabled: true,
+      layout: "horizontal",
+      align: "center",
+      verticalAlign: "bottom",
+      margin: 0
+    },
     tooltip: {
       //   pointFormat:
       //     '<span style="color:{series.color}"></span><b>{point.y}</b> Hours <b>{point.y}</b> Minutes<br/>',

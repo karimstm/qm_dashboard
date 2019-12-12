@@ -396,8 +396,8 @@ class Stoppage extends Component {
 
     return (
       <div>
-        <Col span={8}>
-          <Card bordered={false}>
+        <Col xm={24} md={24} lg={8}>
+          <Card bordered={false} className="stoppage">
             <p className="charts-title">Stoppages Summary</p>
             <p className="charts-subtitle">
               One&nbsp;{this.state.rangeSelected}
@@ -418,7 +418,7 @@ class Stoppage extends Component {
             />
           </Card>
         </Col>
-        <Col span={16}>
+        <Col xm={24} md={24} lg={16}>
           <Card bordered={false}>
             <p className="charts-title">Stoppages History</p>
             <br />

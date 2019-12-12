@@ -298,3 +298,9 @@ i.anticon.anticon-sync {
   bottom: 27px;
   border-top: 1px solid #eeeeee;
 }
+
+@media only screen and (max-width: 990px) {
+  div.stoppage {
+    margin-bottom: 20px;
+  }
+}

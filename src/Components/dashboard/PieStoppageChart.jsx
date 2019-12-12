@@ -9,7 +9,7 @@ export class PieChart extends Component {
   render() {
     const { seriesOptions, drilldownSeries, getEvent } = this.props;
     return (
-      <div>
+      <div style={{ height: "397px" }}>
         <HighchartsReact
           highcharts={Highcharts}
           options={stoppagePieChartOptions(

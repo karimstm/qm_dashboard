@@ -9,7 +9,7 @@ export const FetchOrigin = () => async dispatch => {
         return dispatch({type: ORIGIN_LOAD_FAILURE, error: "Origins: " + err.response.data.detail })
     });
     if (response.status === 200)
-        return dispatch({ type: ORIGIN_LOAD_SUCCESS, payload: response.data})
+        return dispatch({ type: ORIGIN_LOAD_SUCCESS, payload: response.data.results})
     return response
 }
 
@@ -21,6 +21,6 @@ export const PostOrigin = (data) => async dispatch => {
         return dispatch({ type: ORIGIN_INSERT_FAILURE, error: "ORIGIN Insert: " + err.response.data.detail })
     })
     if (response.status === 201)
-        return dispatch({ type: ORIGIN_INSERT_SUCCESS, payload: response.data})
+        return dispatch({ type: ORIGIN_INSERT_SUCCESS, payload: response.data.results})
     return response
 }

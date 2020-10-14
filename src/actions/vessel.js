@@ -9,7 +9,7 @@ export const FetchVessels = () => async dispatch => {
         return dispatch({type: VESSEL_LOAD_FAILURE, error: "Products: " + err.response.data.detail })
     });
     if (response.status === 200)
-        return dispatch({ type: VESSEL_LOAD_SUCCESS, payload: response.data})
+        return dispatch({ type: VESSEL_LOAD_SUCCESS, payload: response.data.results})
     return response
 }
 
@@ -21,6 +21,6 @@ export const PostVessel = (data) => async dispatch => {
         return dispatch({ type: VESSEL_INSERT_FAILURE, error: "Vessel Insert: " + err.response.data.detail })
     })
     if (response.status === 201)
-        return dispatch({ type: VESSEL_INSERT_SUCCESS, payload: response.data})
+        return dispatch({ type: VESSEL_INSERT_SUCCESS, payload: response.data.results})
     return response
 }

@@ -18,7 +18,7 @@ export const fetchWaitingUsers = () => async dispatch => {
         return dispatch({ type: USERS_WAITING_LOAD_FAILURE, error: 'Users: ' + err.response.detail })
     })
     if (response.status === 200 )
-        return dispatch({ type: USERS_WAITING_LOAD_SUCCESS, payload: response.data })
+        return dispatch({ type: USERS_WAITING_LOAD_SUCCESS, payload: response.data.results })
     return response;
 }
 
@@ -50,7 +50,7 @@ export const fetchUsers = (
         return dispatch({ type: USERS_LOAD_FAILURE, error: 'Users: ' + err.response.detail })
     })
     if (response.status === 200 )
-        return dispatch({ type: USERS_LOAD_SUCCESS, payload: response.data })
+        return dispatch({ type: USERS_LOAD_SUCCESS, payload: response.data.results})
     return response;
 }
 
@@ -65,6 +65,6 @@ export const DisableEnableUser = (userId, is_active) => async dispatch => {
         return dispatch({ type: USERS_UPDATE_FAILURE, error: 'Users: ' + err.response.detail })
     })
     if (response.status === 200 )
-        return dispatch({ type: USERS_UPDATE_SUCCESS, payload: response.data })
+        return dispatch({ type: USERS_UPDATE_SUCCESS, payload: response.data.results })
     return response;
 }

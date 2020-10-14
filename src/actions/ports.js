@@ -9,7 +9,7 @@ export const FetchPorts = () => async dispatch => {
         return dispatch({type: PORT_LOAD_FAILURE, error: "Ports: " + err.response.data.detail })
     });
     if (response.status === 200)
-        return dispatch({ type: PORT_LOAD_SUCCESS, payload: response.data})
+        return dispatch({ type: PORT_LOAD_SUCCESS, payload: response.data.results})
     return response
 }
 
@@ -21,6 +21,6 @@ export const PostPorts = (data) => async dispatch => {
         return dispatch({ type: PORT_INSERT_FAILURE, error: "Ports Insert: " + err.response.data.detail })
     })
     if (response.status === 201)
-        return dispatch({ type: PORT_INSERT_SUCCESS, payload: response.data})
+        return dispatch({ type: PORT_INSERT_SUCCESS, payload: response.data.results})
     return response
 }

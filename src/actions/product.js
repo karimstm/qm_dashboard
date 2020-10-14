@@ -26,7 +26,7 @@ export const FetchProducts = () => async dispatch => {
         return dispatch({type: PRODUCT_LOAD_FAILURE, error: "Products: " + err.response.data.detail })
     });
     if (response.status === 200)
-        return dispatch({ type: PRODUCT_LOAD_SUCCESS, payload: response.data})
+        return dispatch({ type: PRODUCT_LOAD_SUCCESS, payload: response.data.results})
     return response
 }
 
@@ -37,7 +37,7 @@ export const FetchCategroy = () => async dispatch => {
         return dispatch({ type: CATEGORY_LOAD_FAILURE, error: "Categories: " + err.response.data.detail })
     });
     if (response.status === 200)
-        return dispatch({ type: CATEGORY_LOAD_SUCCESS, payload: response.data})
+        return dispatch({ type: CATEGORY_LOAD_SUCCESS, payload: response.data.results})
     return response
 }
 
@@ -57,7 +57,7 @@ export const PostCategory = (data) => async dispatch => {
     const response = await axios.post('productcategory/', data)
     .catch(err => dispatch({ type: CATEGORY_INSERT_FAILURE, error: "Category Insert: " + err.response.data.detail}))
     if (response.status === 201 )
-        return dispatch({ type: CATEGORY_INSERT_SUCCESS, payload: response.data })
+        return dispatch({ type: CATEGORY_INSERT_SUCCESS, payload: response.data.results })
     return response
 }
 
@@ -77,7 +77,7 @@ export const PostFamily = (data) => async dispatch => {
         return dispatch({ type: FAMILY_INSERT_FAILURE, error: "Product Family Insert: " + err.response.data.detail })
     });
     if (response.status === 201)
-        return dispatch({ type: FAMILY_INSERT_SUCCESS, payload: response.data})
+        return dispatch({ type: FAMILY_INSERT_SUCCESS, payload: response.data.results})
     return response
 }
 
@@ -86,7 +86,7 @@ export const FetchType = () => async dispatch => {
     const response = await axios.get('productype/')
     .catch(err => dispatch({ type: TYPE_LOAD_FAILURE, error: 'Product Type: ' + err.response.detail }))
     if (response.status === 200 )
-        return dispatch({ type: TYPE_LOAD_SUCCESS, payload: response.data })
+        return dispatch({ type: TYPE_LOAD_SUCCESS, payload: response.data.results })
     return response;
 }
 
@@ -94,6 +94,6 @@ export const PostType = (data) => async dispatch => {
     const response = await axios.post('productype/', data)
     .catch(err => dispatch({ type: TYPE_INSERT_FAILURE, error: 'Product Type Insert : ' + err.response.detail }))
     if (response.status === 201 )
-        return dispatch({ type: TYPE_INSERT_SUCCESS, payload: response.data })
+        return dispatch({ type: TYPE_INSERT_SUCCESS, payload: response.dataresults })
     return response;
 }

@@ -167,7 +167,7 @@ export class Indicators extends Component {
     const requestURL = `${api}incidentdetails/?resuming_hour=null&inspection_ref__inspection_status=ONHOLD&ordering=-stopping_hour`;
     Axios.get(requestURL)
       .then(response => {
-        let data = response.data;
+        let data = response.data.results;
         let incident = data.filter(item => item.related === "PRODUCT").length;
         let halt = data.filter(item => item.related === "HALT").length;
         let weather = data.filter(item => item.related === "WEATHER").length;

@@ -124,8 +124,8 @@ export class TableEvent extends Component {
       .get(requestURL)
       .then(res => {
         let i = 0;
-        let dataLength = res.data.length;
-        let data = res.data;
+        let dataLength = res.data.results.length;
+        let data = res.data.results;
         let event;
         let inspector;
         let date;
